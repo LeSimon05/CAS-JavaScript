@@ -1,13 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
     <head>
-        <title>
-            CAS
-        </title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Le'sches Computeralgebrasystem</title>
     </head>
     <body>
         <script src="js/lib/mathjs/math.js"></script>
         <script src="js/Model.js"></script>
-        <script src="js/Controller.js"></script>
+
+        <!-- Kopfbereich mit Überschrift und Unterüberschrift-->
+        <header>
+            <h1>Das Le'sche Computeralgebrasystem</h1>
+            <p>Ein Computeralgebrasystem, welches sich auf das Rechnen mit komplexen Zahlen fokussiert</p>
+        </header>
+
+        <main>
+            <table border="1">
+                <tr>
+                    <td id="UserInterface">
+                        <table>
+                            <tbody>
+                                <tr><td colspan="4"><input type="text" id="z1Input" name="EingabefeldFuerZ1"></td></tr>
+                                <tr>
+                                    <td><button>addieren</button></td>
+                                    <td><button>subtrahieren</button></td>
+                                    <td><button>multiplizieren</button></td>
+                                    <td><button>dividieren</button></td>
+                                </tr>
+                                <tr><td colspan="4"><input type="text" id="z2Input" name="EingabefeldFuerZ2"></td></tr>
+                                <tr>
+                                    <td><button>addieren</button></td>
+                                    <td><button>subtrahieren</button></td>
+                                    <td><button>multiplizieren</button></td>
+                                    <td><button>dividieren</button></td>
+                                </tr>
+                                <tr>
+                                    <td><button>Betrag</button></td>
+                                    <td><button>Zeigerwinkel</button></td>
+                                    <td><button>konjugieren</button></td>
+                                    <td><button>Kehrwert</button></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr><td colspan="4"><button>zurücksetzen</button></td></tr>
+                            </tfoot>
+                        </table>
+
+                    </td>
+                    <td>Canvas</td>
+                </tr>
+            </table>
+        </main>
+
+        <!-- <script src="js/Controller.js"></script> -->
     </body>
 </html>
