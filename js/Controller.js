@@ -42,3 +42,12 @@ for (let td of document.getElementsByClassName("operator2ButtonCell")) {
     td.firstChild.onclick = function() {calcTwoNumbers(document.getElementById("z1Input").value, document.getElementById("z2Input").value, td.firstChild.name);};
 }
 
+
+function reset() {
+    document.getElementById("resultCell").innerHTML = "cleared";
+    document.getElementById("resultCell").style.visibility = "hidden";
+    document.getElementById("z1Input").value = "";
+    document.getElementById("z2Input").value = "";
+}
+
+document.getElementById("resetButton").onclick = function() {reset();};
