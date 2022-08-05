@@ -1,17 +1,17 @@
 //Aufzaehlung aller moeglichen Operatoren
 const Operators = {
-    add: 0,
-    subtract: 1,
-    multiply: 2,
-    divide: 3,
-    absoluteValue: 4,
-    vectorAngle: 5,
-    conjugate: 6,
-    inverse: 7,
+    add: "add",
+    subtract: "subtract",
+    multiply: "multiply",
+    divide: "divide",
+    absoluteValue: "absoluteValue",
+    vectorAngle: "vectorAngle",
+    conjugate: "conjugate",
+    inverse: "inverse",
 };
 
 //Funktion, um zwei Zahlen miteinander zu verrechnen
-function calculateTwoNumbers(z1, z2, operator) {
+function calculateTwoNumbers(z1, z2, operator) {    
     let ans;
     switch(operator) {
         case Operators.add:
@@ -29,11 +29,11 @@ function calculateTwoNumbers(z1, z2, operator) {
         default:
             return "Wrong Operator";
     }
-    return math.round(ans, 2);
+    return math.round(ans, 2); //Das Ergebnis wird vorher auf zwei Nachkommastellen gerundet und dann zurueckgegeben
 }
 
 //Funktion, um einen Operator auf eine Zahl anzuwenden
-function calculateOneNumber(z, operator) {
+function calculateOneNumber(z, operator) {    
     switch(operator) {
         case Operators.absoluteValue:
             return math.round(math.abs(z), 2);
@@ -48,6 +48,11 @@ function calculateOneNumber(z, operator) {
 
 //Funktion, die den Winkel des Zeigers auf der Gausschen Zahlenebene berechnet
 function getVectorAngle(z) {
+    
+    /*
+    Fuer den Realteil und den imaginaeren Teil von z werden a und b deklariert
+    c ist der Tangens von a und b
+    */
     let a = z.re;
     let b = z.im;
     let c = math.divide(b, a);

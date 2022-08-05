@@ -4,6 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Le'sches Computeralgebrasystem</title>
+
+        <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
         <script src="js/lib/mathjs/math.js"></script>
@@ -16,30 +18,35 @@
         </header>
 
         <main>
-            <table border="1">
+            <table id="mainTable" border="1">
                 <tr>
                     <td id="UserInterface">
                         <table>
                             <tbody>
-                                <tr><td colspan="4"><input type="text" id="z1Input" name="EingabefeldFuerZ1"></td></tr>
+                                <tr><td colspan="4"><input type="text" class="zInput" id="z1Input" name="EingabefeldFuerZ1"></td></tr>
                                 <tr>
-                                    <td><button>addieren</button></td>
-                                    <td><button>subtrahieren</button></td>
-                                    <td><button>multiplizieren</button></td>
-                                    <td><button>dividieren</button></td>
+                                    <td class="operatorButtonCellZ1"><button name="absoluteValue">Betrag</button></td>
+                                    <td class="operatorButtonCellZ1"><button name="vectorAngle">Zeigerwinkel</button></td>
+                                    <td class="operatorButtonCellZ1"><button name="conjugate">konjugieren</button></td>
+                                    <td class="operatorButtonCellZ1"><button name="inverse">Kehrwert</button></td>
                                 </tr>
-                                <tr><td colspan="4"><input type="text" id="z2Input" name="EingabefeldFuerZ2"></td></tr>
+                                <tr><td colspan="4"><input type="text" class="zInput" id="z2Input" name="EingabefeldFuerZ2"></td></tr>
                                 <tr>
-                                    <td><button>addieren</button></td>
-                                    <td><button>subtrahieren</button></td>
-                                    <td><button>multiplizieren</button></td>
-                                    <td><button>dividieren</button></td>
+                                    <td class="operatorButtonCellZ2"><button name="absoluteValue">Betrag</button></td>
+                                    <td class="operatorButtonCellZ2"><button name="vectorAngle">Zeigerwinkel</button></td>
+                                    <td class="operatorButtonCellZ2"><button name="conjugate">konjugieren</button></td>
+                                    <td class="operatorButtonCellZ2"><button name="inverse">Kehrwert</button></td>
                                 </tr>
                                 <tr>
-                                    <td><button>Betrag</button></td>
-                                    <td><button>Zeigerwinkel</button></td>
-                                    <td><button>konjugieren</button></td>
-                                    <td><button>Kehrwert</button></td>
+                                    <td class="operator2ButtonCell"><button name="add">addieren</button></td>
+                                    <td class="operator2ButtonCell"><button name="subtract">subtrahieren</button></td>
+                                    <td class="operator2ButtonCell"><button name="multiply">multiplizieren</button></td>
+                                    <td class="operator2ButtonCell"><button name="divide">dividieren</button></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" id="resultCell">Ergebnis</td> 
+                                    <!--Damit der noetige Platz fuer das Ergebnis "reserviert" wird, bekommt die Zelle den Text "Ergebnis". 
+                                        Jedoch wird der Text zu Beginn im Stylesheet unsichtbar gemacht-->
                                 </tr>
                             </tbody>
                             <tfoot>
@@ -48,11 +55,11 @@
                         </table>
 
                     </td>
-                    <td>Canvas</td>
+                    <td id="Canvas">Canvas</td>
                 </tr>
             </table>
         </main>
 
-        <!-- <script src="js/Controller.js"></script> -->
+        <script src="js/Controller.js"></script>
     </body>
 </html>

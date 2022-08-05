@@ -1,0 +1,23 @@
+.zInput {
+    box-sizing: border-box;
+    width: 100%;
+}
+button {
+    width: 100%;
+}
+.operatorButtonCellZ1, .operatorButtonCellZ2 {
+    position: relative;
+    width: 25%;
+    padding-bottom: 2em;
+}
+#resultCell {
+    padding-top: 2em;
+    padding-bottom: 2em;
+    text-align: center;
+    font-weight: bold;
+    visibility: hidden;
+}
+#Canvas {
+    width: 100%;
+    height: 100%;
+}
