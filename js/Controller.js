@@ -53,9 +53,17 @@ function calcTwoNumbers(z1, z2, operator) {
         return;
     }
 
-    let ans = calculateTwoNumbers(z1, z2, operator)
+    let ans = calculateTwoNumbers(z1, z2, operator);
+
+    /*
+    Teilt man durch 0, kommt als Ergebnis Infinity raus (was eigentlich nicht stimmt)
+    */
+    if (ans == "Infinity") {
+        ans = "Nicht definiert!";
+    } else {
+        view.drawArrow(ans.re, ans.im);
+    }
     document.getElementById("resultCell").innerHTML = ans;
-    view.drawArrow(ans.re, ans.im);
 }
 
 for (let td of document.getElementsByClassName("operator2ButtonCell")) {
