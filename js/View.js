@@ -21,6 +21,10 @@ class View {
         let centre_x = this.canvas.width/2;
         let centre_y = this.canvas.height/2;
         
+        //Linienfarbe wird auf schwarz gesetzt und die Dicke der Linie wird auf 1 gesetzt
+        this.context.strokeStyle = "#000000";
+        this.context.lineWidth = 1;
+
         //x-Achse und y-Achse werden gezeichnet
         this.context.beginPath();
         this.context.moveTo(0, centre_y);
@@ -71,6 +75,8 @@ class View {
         this.context.beginPath();
         this.context.moveTo(this.canvas.width/2, this.canvas.height/2);
         this.context.lineTo(this.canvas.width/2 + xDes*this.canvasScaling, this.canvas.height/2 - yDes*this.canvasScaling);
+        this.context.strokeStyle = "#ff0000";
+        this.context.lineWidth = 2;
         this.context.stroke();
     }
 
