@@ -1,0 +1,81 @@
+class View {
+    constructor() {
+        this.canvas = document.getElementById("Canvas");
+        
+        //Canvas breitet sich so gross wie moeglich aus
+        let td = this.canvas.parentNode;
+        this.canvas.width = td.clientWidth;
+        this.canvas.height = td.clientHeight;
+
+        this.context = this.canvas.getContext("2d");
+        this.canvasScaling = 50;
+        
+
+        /*
+        Koordinatensystem wird gezeichnet
+        */
+        this.drawCoordinateSystem();
+    }
+
+    drawCoordinateSystem() {
+        let centre_x = this.canvas.width/2;
+        let centre_y = this.canvas.height/2;
+        
+        //x-Achse und y-Achse werden gezeichnet
+        this.context.beginPath();
+        this.context.moveTo(0, centre_y);
+        this.context.lineTo(this.canvas.width, centre_y);
+        this.context.moveTo(centre_x + 0.5, 0); //Damit vertikale Linien nicht unscharf erscheinen, muessen sie um 0.5 verschoben werden
+        this.context.lineTo(centre_x + 0.5, this.canvas.height);
+        this.context.stroke();
+
+        //Koordinatenbeschriftung wird formatiert
+        this.context.textAlign = "center";
+        this.context.font = "12px Arial"
+
+        //x-Achse wird beschriftet
+        this.context.beginPath();
+        for (let i = 0; i < centre_x/this.canvasScaling; i++) {
+
+            //in die positive Richtung
+            this.context.moveTo(centre_x + ((i + 1) * this.canvasScaling) + 0.5, centre_y - 10);
+            this.context.lineTo(centre_x + ((i + 1) * this.canvasScaling) + 0.5, centre_y + 10);
+            this.context.fillText((i + 1), centre_x + ((i + 1) * this.canvasScaling), centre_y + 25);
+
+            //in die negative Richtung
+            this.context.moveTo(centre_x - ((i + 1) * this.canvasScaling) + 0.5, centre_y - 10);
+            this.context.lineTo(centre_x - ((i + 1) * this.canvasScaling) + 0.5, centre_y + 10);
+            this.context.fillText((-i - 1), centre_x - ((i + 1) * this.canvasScaling), centre_y + 25);
+
+        }
+        this.context.stroke();
+
+        //y-Achse wird beschriftet
+        this.context.beginPath();
+        for (let i = 0; i < centre_y/this.canvasScaling; i++) {
+
+            //in die postive Richtung
+            this.context.moveTo(centre_x - 10, centre_y - ((i + 1) * this.canvasScaling));
+            this.context.lineTo(centre_x + 10, centre_y - ((i + 1) * this.canvasScaling));
+            this.context.fillText((i + 1), centre_x + 25, centre_y - ((i + 1) * this.canvasScaling) + 3);
+
+            //in die negative Richtung
+            this.context.moveTo(centre_x - 10, centre_y + ((i + 1) * this.canvasScaling));
+            this.context.lineTo(centre_x + 10, centre_y + ((i + 1) * this.canvasScaling));
+            this.context.fillText((-i - 1), centre_x + 25, centre_y + ((i + 1) * this.canvasScaling) + 3);
+        }
+        this.context.stroke();
+    }
+
+    drawArrow(xDes, yDes) {
+        this.context.beginPath();
+        this.context.moveTo(this.canvas.width/2, this.canvas.height/2);
+        this.context.lineTo(this.canvas.width/2 + xDes*this.canvasScaling, this.canvas.height/2 - yDes*this.canvasScaling);
+        this.context.stroke();
+    }
+
+    reset() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.drawCoordinateSystem();
+    }
+}

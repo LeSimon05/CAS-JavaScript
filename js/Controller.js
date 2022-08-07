@@ -1,3 +1,5 @@
+let view = new View();
+
 function calcOneNumber(z, operator) {
 
     document.getElementById("resultCell").style.visibility = "visible"; //Da das Ergebnisfeld unsichtbar ist (siehe Kommentar in index.html), wird es wieder sichtbar gemacht
@@ -10,7 +12,19 @@ function calcOneNumber(z, operator) {
         return;
     }
 
-    document.getElementById("resultCell").innerHTML = calculateOneNumber(z, operator);
+    let ans = calculateOneNumber(z, operator);
+    document.getElementById("resultCell").innerHTML = ans;
+    switch (operator) {
+        case Operators.absoluteValue:
+        case Operators.vectorAngle:
+            view.drawArrow(z.re, z.im);
+            break;
+        case Operators.conjugate:
+        case Operators.inverse:
+            ans = math.complex(ans);
+            view.drawArrow(ans.re, ans.im);
+            break;
+    }
 }
 
 for (let td of document.getElementsByClassName("operatorButtonCellZ1")) {
@@ -35,7 +49,9 @@ function calcTwoNumbers(z1, z2, operator) {
         return;
     }
 
-    document.getElementById("resultCell").innerHTML = calculateTwoNumbers(z1, z2, operator);
+    let ans = calculateTwoNumbers(z1, z2, operator)
+    document.getElementById("resultCell").innerHTML = ans;
+    view.drawArrow(ans.re, ans.im);
 }
 
 for (let td of document.getElementsByClassName("operator2ButtonCell")) {
@@ -48,6 +64,8 @@ function reset() {
     document.getElementById("resultCell").style.visibility = "hidden";
     document.getElementById("z1Input").value = "";
     document.getElementById("z2Input").value = "";
+
+    view.reset();
 }
 
 document.getElementById("resetButton").onclick = function() {reset();};
