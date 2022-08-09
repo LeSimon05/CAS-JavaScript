@@ -9,6 +9,7 @@ class View {
 
         this.context = this.canvas.getContext("2d");
         this.canvasScaling = 50;
+        this.userScaling = 1;
         
 
         /*
@@ -44,12 +45,12 @@ class View {
             //in die positive Richtung
             this.context.moveTo(centre_x + ((i + 1) * this.canvasScaling) + 0.5, centre_y - 10);
             this.context.lineTo(centre_x + ((i + 1) * this.canvasScaling) + 0.5, centre_y + 10);
-            this.context.fillText((i + 1), centre_x + ((i + 1) * this.canvasScaling), centre_y + 25);
+            this.context.fillText((i + 1)*this.userScaling, centre_x + ((i + 1) * this.canvasScaling), centre_y + 25);
 
             //in die negative Richtung
             this.context.moveTo(centre_x - ((i + 1) * this.canvasScaling) + 0.5, centre_y - 10);
             this.context.lineTo(centre_x - ((i + 1) * this.canvasScaling) + 0.5, centre_y + 10);
-            this.context.fillText((-i - 1), centre_x - ((i + 1) * this.canvasScaling), centre_y + 25);
+            this.context.fillText((-i - 1)*this.userScaling, centre_x - ((i + 1) * this.canvasScaling), centre_y + 25);
 
         }
         this.context.stroke();
@@ -61,12 +62,12 @@ class View {
             //in die postive Richtung
             this.context.moveTo(centre_x - 10, centre_y - ((i + 1) * this.canvasScaling));
             this.context.lineTo(centre_x + 10, centre_y - ((i + 1) * this.canvasScaling));
-            this.context.fillText((i + 1), centre_x + 25, centre_y - ((i + 1) * this.canvasScaling) + 3);
+            this.context.fillText((i + 1)*this.userScaling, centre_x + 25, centre_y - ((i + 1) * this.canvasScaling) + 3);
 
             //in die negative Richtung
             this.context.moveTo(centre_x - 10, centre_y + ((i + 1) * this.canvasScaling));
             this.context.lineTo(centre_x + 10, centre_y + ((i + 1) * this.canvasScaling));
-            this.context.fillText((-i - 1), centre_x + 25, centre_y + ((i + 1) * this.canvasScaling) + 3);
+            this.context.fillText((-i - 1)*this.userScaling, centre_x + 25, centre_y + ((i + 1) * this.canvasScaling) + 3);
         }
         this.context.stroke();
     }
@@ -74,7 +75,7 @@ class View {
     drawArrow(xDes, yDes) {
         this.context.beginPath();
         this.context.moveTo(this.canvas.width/2, this.canvas.height/2);
-        this.context.lineTo(this.canvas.width/2 + xDes*this.canvasScaling, this.canvas.height/2 - yDes*this.canvasScaling);
+        this.context.lineTo(this.canvas.width/2 + xDes*this.canvasScaling/this.userScaling, this.canvas.height/2 - yDes*this.canvasScaling/this.userScaling);
         this.context.strokeStyle = "#ff0000";
         this.context.lineWidth = 2;
         this.context.stroke();
