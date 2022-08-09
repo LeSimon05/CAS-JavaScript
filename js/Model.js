@@ -74,4 +74,8 @@ class Model {
     getListofAnswers() {
         return this.listOfAnswers;
     }
+
+    resetListofAnswers() {
+        this.listOfAnswers = [];
+    }
 }

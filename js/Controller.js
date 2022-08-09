@@ -84,13 +84,18 @@ function reset() {
     view.reset();
 }
 
-document.getElementById("resetButton").onclick = function() {reset();};
+document.getElementById("resetButton").onclick = function() {
+    reset();
+    model.resetListofAnswers();
+};
+
 document.getElementById("decreaseScaleButton").onclick = function() {
     document.getElementById("scaleLabel").innerHTML = view.toggleScale("decrease");
     for (let num of model.getListofAnswers()) {
         view.drawArrow(num[0], num[1]);
     }
 };
+
 document.getElementById("increaseScaleButton").onclick = function() {
     document.getElementById("scaleLabel").innerHTML = view.toggleScale("increase");
     for (let num of model.getListofAnswers()) {
