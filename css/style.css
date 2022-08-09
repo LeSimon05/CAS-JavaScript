@@ -55,5 +55,6 @@ footer {
 @media screen and (orientation:portrait) {
     main > .mainContent {
         display: grid;
+        grid-template-rows: 1fr 1fr;
     }
 }
