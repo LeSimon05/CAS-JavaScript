@@ -45,12 +45,12 @@ class View {
             //in die positive Richtung
             this.context.moveTo(centre_x + ((i + 1) * this.canvasScaling) + 0.5, centre_y - 10);
             this.context.lineTo(centre_x + ((i + 1) * this.canvasScaling) + 0.5, centre_y + 10);
-            this.context.fillText((i + 1)*this.userScaling, centre_x + ((i + 1) * this.canvasScaling), centre_y + 25);
+            this.context.fillText(math.round((i + 1)*this.userScaling, this.getDecimalPlaces(this.userScaling)), centre_x + ((i + 1) * this.canvasScaling), centre_y + 25);
 
             //in die negative Richtung
             this.context.moveTo(centre_x - ((i + 1) * this.canvasScaling) + 0.5, centre_y - 10);
             this.context.lineTo(centre_x - ((i + 1) * this.canvasScaling) + 0.5, centre_y + 10);
-            this.context.fillText((-i - 1)*this.userScaling, centre_x - ((i + 1) * this.canvasScaling), centre_y + 25);
+            this.context.fillText(math.round((-i - 1)*this.userScaling, this.getDecimalPlaces(this.userScaling)), centre_x - ((i + 1) * this.canvasScaling), centre_y + 25);
 
         }
         this.context.stroke();
@@ -62,12 +62,12 @@ class View {
             //in die postive Richtung
             this.context.moveTo(centre_x - 10, centre_y - ((i + 1) * this.canvasScaling));
             this.context.lineTo(centre_x + 10, centre_y - ((i + 1) * this.canvasScaling));
-            this.context.fillText((i + 1)*this.userScaling, centre_x + 25, centre_y - ((i + 1) * this.canvasScaling) + 3);
+            this.context.fillText(math.round((i + 1)*this.userScaling, this.getDecimalPlaces(this.userScaling)), centre_x + 25, centre_y - ((i + 1) * this.canvasScaling) + 3);
 
             //in die negative Richtung
             this.context.moveTo(centre_x - 10, centre_y + ((i + 1) * this.canvasScaling));
             this.context.lineTo(centre_x + 10, centre_y + ((i + 1) * this.canvasScaling));
-            this.context.fillText((-i - 1)*this.userScaling, centre_x + 25, centre_y + ((i + 1) * this.canvasScaling) + 3);
+            this.context.fillText(math.round((-i - 1)*this.userScaling, this.getDecimalPlaces(this.userScaling)), centre_x + 25, centre_y + ((i + 1) * this.canvasScaling) + 3);
         }
         this.context.stroke();
     }
@@ -84,5 +84,67 @@ class View {
     reset() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.drawCoordinateSystem();
+    }
+
+    toggleScale(button) {
+        switch(button) {
+            case "increase":
+                switch(true) {
+                    case this.userScaling < 0.1:
+                        this.userScaling *= 10;
+                        break;
+                    case this.userScaling == 0.1:
+                        this.userScaling = 0.125;
+                        break;
+                    case this.userScaling == 0.125 || this.userScaling == 0.25 || this.userScaling == 0.5:
+                        this.userScaling *= 2;
+                        break;
+                    case this.userScaling >= 10 && this.userScaling < 100:
+                        this.userScaling += 10;
+                        break;
+                    case this.userScaling >= 100:
+                        this.userScaling += 100;
+                        break;
+                    default:
+                        this.userScaling++;
+                        break;
+                }
+                break;
+            case "decrease":
+                switch(true) {
+                    case this.userScaling > 100:
+                        this.userScaling -= 100;
+                        break;
+                    case this.userScaling > 10 && this.userScaling <= 100:
+                        this.userScaling -= 10;
+                        break;
+                    case this.userScaling == 1 || this.userScaling == 0.5 || this.userScaling == 0.25:
+                        this.userScaling /= 2;
+                        break;
+                    case this.userScaling == 0.125:
+                        this.userScaling = 0.1;
+                        break;
+                    case this.userScaling <= 0.1 && this.userScaling > 0.00001:
+                        this.userScaling /= 10;
+                        break;
+                    case this.userScaling == 0.00001:
+                        break;
+                    default:
+                        this.userScaling--;
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
+        this.reset();
+        return this.userScaling;
+    }
+
+    getDecimalPlaces(i) {
+        if (Number.isInteger(i)) return 0;
+        else {
+            return i.toString().split(".")[1].length;
+        }
     }
 }

@@ -47,9 +47,15 @@
                                 <!--Damit der noetige Platz fuer das Ergebnis "reserviert" wird, bekommt die Zelle den Text "Ergebnis". 
                                     Jedoch wird der Text zu Beginn im Stylesheet unsichtbar gemacht-->
                             </tr>
+                            <tr><td id="resetButtonCell" colspan="4"><button id="resetButton">zurücksetzen</button></td></tr>
                         </tbody>
                         <tfoot>
-                            <tr><td colspan="4"><button id="resetButton">zurücksetzen</button></td></tr>
+                            <tr>
+                                <td>Maßstab</td>
+                                <td><button id="decreaseScaleButton">-</button></td>
+                                <td id="scaleLabel">1</td>
+                                <td><button id="increaseScaleButton">+</button></td>
+                            </tr>
                         </tfoot>
                     </table>
                 </div>

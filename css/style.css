@@ -36,6 +36,14 @@ button {
     visibility: hidden;
 }
 
+#resetButtonCell {
+    padding-bottom: 2em;
+}
+
+#scaleLabel {
+    text-align: center;
+}
+
 canvas {
     vertical-align: top;
 }

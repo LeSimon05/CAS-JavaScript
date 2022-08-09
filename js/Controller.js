@@ -81,3 +81,9 @@ function reset() {
 }
 
 document.getElementById("resetButton").onclick = function() {reset();};
+document.getElementById("decreaseScaleButton").onclick = function() {
+    document.getElementById("scaleLabel").innerHTML = view.toggleScale("decrease");
+};
+document.getElementById("increaseScaleButton").onclick = function() {
+    document.getElementById("scaleLabel").innerHTML = view.toggleScale("increase");
+};
