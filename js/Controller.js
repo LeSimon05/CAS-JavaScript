@@ -1,3 +1,4 @@
+let model = new Model();
 let view = new View();
 
 function calcOneNumber(z, operator) {
@@ -13,16 +14,18 @@ function calcOneNumber(z, operator) {
         return;
     }
 
-    let ans = calculateOneNumber(z, operator);
+    let ans = model.calculateOneNumber(z, operator);
     document.getElementById("resultCell").innerHTML = ans;
     switch (operator) {
         case Operators.absoluteValue:
         case Operators.vectorAngle:
+            model.addNumber(z);
             view.drawArrow(z.re, z.im);
             break;
         case Operators.conjugate:
         case Operators.inverse:
             ans = math.complex(ans);
+            model.addNumber(ans);
             view.drawArrow(ans.re, ans.im);
             break;
     }
@@ -53,7 +56,7 @@ function calcTwoNumbers(z1, z2, operator) {
         return;
     }
 
-    let ans = calculateTwoNumbers(z1, z2, operator);
+    let ans = model.calculateTwoNumbers(z1, z2, operator);
 
     /*
     Teilt man durch 0, kommt als Ergebnis Infinity raus (was eigentlich nicht stimmt)
@@ -61,6 +64,7 @@ function calcTwoNumbers(z1, z2, operator) {
     if (ans == "Infinity") {
         ans = "Nicht definiert!";
     } else {
+        model.addNumber(ans);
         view.drawArrow(ans.re, ans.im);
     }
     document.getElementById("resultCell").innerHTML = ans;
@@ -83,7 +87,13 @@ function reset() {
 document.getElementById("resetButton").onclick = function() {reset();};
 document.getElementById("decreaseScaleButton").onclick = function() {
     document.getElementById("scaleLabel").innerHTML = view.toggleScale("decrease");
+    for (let num of model.getListofAnswers()) {
+        view.drawArrow(num[0], num[1]);
+    }
 };
 document.getElementById("increaseScaleButton").onclick = function() {
     document.getElementById("scaleLabel").innerHTML = view.toggleScale("increase");
+    for (let num of model.getListofAnswers()) {
+        view.drawArrow(num[0], num[1]);
+    }
 };
