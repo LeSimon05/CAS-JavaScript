@@ -1,13 +1,17 @@
-html, body {
-    height: 90%;
-}
-
-main, #mainTable {
+html, main, .mainContent{
     height: 100%;
 }
 
-#UserInterface {
-    vertical-align: top;
+body {
+    height: 90%;
+    display: grid;
+    grid-template-rows: min-content 1fr min-content; 
+}
+
+.mainContent > div{
+    border-width: 3px;
+    border-style: double;
+    border-color: black;
 }
 
 .zInput {
@@ -19,21 +23,37 @@ button {
     width: 100%;
 }
 
-.operatorButtonCellZ1, .operatorButtonCellZ2 {
+.operatorButtonCellZ1, .operatorButtonCellZ2, .operator2ButtonCell {
     position: relative;
     width: 25%;
     padding-bottom: 2em;
 }
 
 #resultCell {
-    padding-top: 2em;
     padding-bottom: 2em;
     text-align: center;
     font-weight: bold;
     visibility: hidden;
 }
 
+canvas {
+    vertical-align: top;
+}
+
 footer {
     padding-top: 1em;
     font-size: smaller;
+}
+
+@media screen and (orientation:landscape) {
+    main > .mainContent {
+        display: grid;
+        grid-template-columns: max-content 1fr;
+    }
+}
+
+@media screen and (orientation:portrait) {
+    main > .mainContent {
+        display: grid;
+    }
 }
