@@ -4,8 +4,9 @@ class View {
         
         //Canvas breitet sich so gross wie moeglich aus
         let td = this.canvas.parentNode;
-        this.canvas.width = td.clientWidth;
-        this.canvas.height = td.clientHeight;
+        let ppi = window.devicePixelRatio
+        this.canvas.width = td.clientWidth * ppi;
+        this.canvas.height = td.clientHeight * ppi;
 
         this.context = this.canvas.getContext("2d");
         this.canvasScaling = 50;

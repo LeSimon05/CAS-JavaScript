@@ -8,6 +8,10 @@ body {
     grid-template-rows: min-content 1fr min-content; 
 }
 
+.mainContent > #UserInterface {
+    width: max-content;
+}
+
 .mainContent > div{
     border-width: 3px;
     border-style: double;
@@ -63,6 +67,6 @@ footer {
 @media screen and (orientation:portrait) {
     main > .mainContent {
         display: grid;
-        grid-template-rows: 1fr 1fr;
+        grid-template-rows: max-content 1fr;
     }
 }
