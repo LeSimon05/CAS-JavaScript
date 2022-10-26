@@ -4,7 +4,7 @@ class View {
         
         //Canvas breitet sich so gross wie moeglich aus
         let td = this.canvas.parentNode;
-        let ppi = window.devicePixelRatio
+        let ppi = window.devicePixelRatio;
         this.canvas.width = td.clientWidth * ppi;
         this.canvas.height = td.clientHeight * ppi;
 
@@ -74,11 +74,11 @@ class View {
     }
 
     drawArrow(xDes, yDes) {
+        this.context.strokeStyle = "#ff0000";
+        this.context.lineWidth = 2;
         this.context.beginPath();
         this.context.moveTo(this.canvas.width/2, this.canvas.height/2);
         this.context.lineTo(this.canvas.width/2 + xDes*this.canvasScaling/this.userScaling, this.canvas.height/2 - yDes*this.canvasScaling/this.userScaling);
-        this.context.strokeStyle = "#ff0000";
-        this.context.lineWidth = 2;
         this.context.stroke();
     }
 

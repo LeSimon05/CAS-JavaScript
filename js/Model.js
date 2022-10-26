@@ -44,7 +44,7 @@ class Model {
             case Operators.absoluteValue:
                 return math.round(math.abs(z), 2);
             case Operators.vectorAngle:
-                return getVectorAngle(z);
+                return this.getVectorAngle(z);
             case Operators.conjugate:
                 return math.conj(z);
             case Operators.inverse:
@@ -64,7 +64,7 @@ class Model {
         let c = math.divide(b, a);
 
         let angle = math.divide(math.atan(c), Math.PI) * 180;
-        return math.round(angle, 2) + decodeURI('%C2%B0');
+        return math.round(angle, 2) + "°";
     }
 
     addNumber(z) {
