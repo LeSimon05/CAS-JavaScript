@@ -1,21 +1,27 @@
 let model = new Model();
 let view = new View();
 
+//Haeufig genutzte DOM-Elemente einmal referenzieren statt wiederholt abzufragen
+const resultCell = document.getElementById("resultCell");
+const z1Input = document.getElementById("z1Input");
+const z2Input = document.getElementById("z2Input");
+const scaleLabel = document.getElementById("scaleLabel");
+
 function calcOneNumber(z, operator) {
 
-    document.getElementById("resultCell").style.visibility = "visible"; //Da das Ergebnisfeld unsichtbar ist (siehe Kommentar in index.html), wird es wieder sichtbar gemacht
+    resultCell.style.visibility = "visible"; //Da das Ergebnisfeld unsichtbar ist (siehe Kommentar in index.html), wird es wieder sichtbar gemacht
     
     try {
         z = z.replace(/,/g, "."); //math.js arbeitet nicht mit Komma, sondern mit Punkt (alle Kommas ersetzen)
         z = math.complex(z); //Umwandeln von z von einem String in ein math.complex
     } catch (error) {
         console.log(error);
-        document.getElementById("resultCell").innerHTML = decodeURI("ung%C3%BCltige Eingabe");
+        resultCell.innerHTML = decodeURI("ung%C3%BCltige Eingabe");
         return;
     }
 
     let ans = model.calculateOneNumber(z, operator);
-    document.getElementById("resultCell").innerHTML = ans;
+    resultCell.innerHTML = ans;
     switch (operator) {
         case Operators.absoluteValue:
         case Operators.vectorAngle:
@@ -32,16 +38,16 @@ function calcOneNumber(z, operator) {
 }
 
 for (let td of document.getElementsByClassName("operatorButtonCellZ1")) {
-    td.firstChild.onclick = function() {calcOneNumber(document.getElementById("z1Input").value, td.firstChild.name);};
+    td.firstChild.onclick = function() {calcOneNumber(z1Input.value, td.firstChild.name);};
 }
 
 for (let td of document.getElementsByClassName("operatorButtonCellZ2")) {
-    td.firstChild.onclick = function() {calcOneNumber(document.getElementById("z2Input").value, td.firstChild.name);};
+    td.firstChild.onclick = function() {calcOneNumber(z2Input.value, td.firstChild.name);};
 }
 
 
 function calcTwoNumbers(z1, z2, operator) {
-    document.getElementById("resultCell").style.visibility = "visible";
+    resultCell.style.visibility = "visible";
     
     try {
         //Punkt statt Komma
@@ -52,7 +58,7 @@ function calcTwoNumbers(z1, z2, operator) {
         z2 = math.complex(z2);
     } catch (error) {
         console.log(error);
-        document.getElementById("resultCell").innerHTML = decodeURI("ung%C3%BCltige Eingabe");
+        resultCell.innerHTML = decodeURI("ung%C3%BCltige Eingabe");
         return;
     }
 
@@ -61,7 +67,7 @@ function calcTwoNumbers(z1, z2, operator) {
         ans = model.calculateTwoNumbers(z1, z2, operator);
     } catch (error) {
         if (error instanceof DivisionByZeroError) {
-            document.getElementById("resultCell").innerHTML = "Nicht definiert!"; //Division durch 0 hat kein darstellbares Ergebnis
+            resultCell.innerHTML = "Nicht definiert!"; //Division durch 0 hat kein darstellbares Ergebnis
             return;
         }
         throw error;
@@ -69,19 +75,19 @@ function calcTwoNumbers(z1, z2, operator) {
 
     model.addNumber(ans);
     view.drawArrow(ans.re, ans.im);
-    document.getElementById("resultCell").innerHTML = ans;
+    resultCell.innerHTML = ans;
 }
 
 for (let td of document.getElementsByClassName("operator2ButtonCell")) {
-    td.firstChild.onclick = function() {calcTwoNumbers(document.getElementById("z1Input").value, document.getElementById("z2Input").value, td.firstChild.name);};
+    td.firstChild.onclick = function() {calcTwoNumbers(z1Input.value, z2Input.value, td.firstChild.name);};
 }
 
 
 function reset() {
-    document.getElementById("resultCell").innerHTML = "cleared";
-    document.getElementById("resultCell").style.visibility = "hidden";
-    document.getElementById("z1Input").value = "";
-    document.getElementById("z2Input").value = "";
+    resultCell.innerHTML = "cleared";
+    resultCell.style.visibility = "hidden";
+    z1Input.value = "";
+    z2Input.value = "";
 
     view.reset();
 }
@@ -92,14 +98,14 @@ document.getElementById("resetButton").onclick = function() {
 };
 
 document.getElementById("decreaseScaleButton").onclick = function() {
-    document.getElementById("scaleLabel").innerHTML = view.toggleScale("decrease");
+    scaleLabel.innerHTML = view.toggleScale("decrease");
     for (let num of model.getListofAnswers()) {
         view.drawArrow(num[0], num[1]);
     }
 };
 
 document.getElementById("increaseScaleButton").onclick = function() {
-    document.getElementById("scaleLabel").innerHTML = view.toggleScale("increase");
+    scaleLabel.innerHTML = view.toggleScale("increase");
     for (let num of model.getListofAnswers()) {
         view.drawArrow(num[0], num[1]);
     }
