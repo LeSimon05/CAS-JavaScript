@@ -83,10 +83,10 @@ class Model {
         atan2 nutzt Real- und Imaginaerteil getrennt und erhaelt so den Quadranten
         (Ergebnis im Bereich (-180°, 180°]); atan(im/re) verloere ihn.
         */
-        let a = z.re;
-        let b = z.im;
+        let re = z.re;
+        let im = z.im;
 
-        let angle = math.divide(math.atan2(b, a), Math.PI) * 180;
+        let angle = math.divide(math.atan2(im, re), Math.PI) * 180;
         return math.round(angle, DECIMAL_PLACES) + "°";
     }
 
