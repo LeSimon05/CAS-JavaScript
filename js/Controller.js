@@ -6,7 +6,7 @@ function calcOneNumber(z, operator) {
     document.getElementById("resultCell").style.visibility = "visible"; //Da das Ergebnisfeld unsichtbar ist (siehe Kommentar in index.html), wird es wieder sichtbar gemacht
     
     try {
-        z = z.replace(",", "."); //math.js arbeitet nicht mit Komma, sondern mit Punkt
+        z = z.replace(/,/g, "."); //math.js arbeitet nicht mit Komma, sondern mit Punkt (alle Kommas ersetzen)
         z = math.complex(z); //Umwandeln von z von einem String in ein math.complex
     } catch (error) {
         console.log(error);
@@ -45,8 +45,8 @@ function calcTwoNumbers(z1, z2, operator) {
     
     try {
         //Punkt statt Komma
-        z1 = z1.replace(",", ".");
-        z2 = z2.replace(",", ".");
+        z1 = z1.replace(/,/g, ".");
+        z2 = z2.replace(/,/g, ".");
         //Bei Ausfuehren der Funktion werden z1 sowie z2 als String uebergeben, weshalb sie zuerst in math.complex umgewandelt werden muessen
         z1 = math.complex(z1); 
         z2 = math.complex(z2);
