@@ -22,11 +22,7 @@ class View {
         this.context = this.canvas.getContext("2d");
         this.canvasScaling = 50;
         this.userScaling = 1;
-        
 
-        /*
-        Koordinatensystem wird gezeichnet
-        */
         this.drawCoordinateSystem();
     }
 

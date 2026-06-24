@@ -34,8 +34,7 @@ class Model {
         this.listOfAnswers = [];
     }
 
-    //Funktion, um zwei Zahlen miteinander zu verrechnen
-    calculateTwoNumbers(z1, z2, operator) {    
+    calculateTwoNumbers(z1, z2, operator) {
         let ans;
         switch(operator) {
             case Operators.add:
@@ -62,8 +61,7 @@ class Model {
         return result;
     }
 
-    //Funktion, um einen Operator auf eine Zahl anzuwenden
-    calculateOneNumber(z, operator) {    
+    calculateOneNumber(z, operator) {
         switch(operator) {
             case Operators.absoluteValue:
                 return math.round(math.abs(z), DECIMAL_PLACES);
@@ -76,7 +74,6 @@ class Model {
         }
     }
 
-    //Funktion, die den Winkel des Zeigers auf der Gausschen Zahlenebene berechnet
     getVectorAngle(z) {
 
         /*
