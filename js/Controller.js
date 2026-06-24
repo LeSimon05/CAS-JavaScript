@@ -7,16 +7,25 @@ const z1Input = document.getElementById("z1Input");
 const z2Input = document.getElementById("z2Input");
 const scaleLabel = document.getElementById("scaleLabel");
 
+//Wandelt eine Eingabe in eine komplexe Zahl um; Komma wird als Dezimaltrenner akzeptiert (math.js erwartet Punkt)
+function parseComplexInput(raw) {
+    return math.complex(raw.replace(/,/g, "."));
+}
+
+//Zeigt den Hinweis auf eine ungueltige Eingabe an und protokolliert den Fehler
+function showInvalidInput(error) {
+    console.log(error);
+    resultCell.innerHTML = decodeURI("ung%C3%BCltige Eingabe");
+}
+
 function calcOneNumber(z, operator) {
 
     resultCell.style.visibility = "visible"; //Da das Ergebnisfeld unsichtbar ist (siehe Kommentar in index.html), wird es wieder sichtbar gemacht
     
     try {
-        z = z.replace(/,/g, "."); //math.js arbeitet nicht mit Komma, sondern mit Punkt (alle Kommas ersetzen)
-        z = math.complex(z); //Umwandeln von z von einem String in ein math.complex
+        z = parseComplexInput(z);
     } catch (error) {
-        console.log(error);
-        resultCell.innerHTML = decodeURI("ung%C3%BCltige Eingabe");
+        showInvalidInput(error);
         return;
     }
 
@@ -50,15 +59,10 @@ function calcTwoNumbers(z1, z2, operator) {
     resultCell.style.visibility = "visible";
     
     try {
-        //Punkt statt Komma
-        z1 = z1.replace(/,/g, ".");
-        z2 = z2.replace(/,/g, ".");
-        //Bei Ausfuehren der Funktion werden z1 sowie z2 als String uebergeben, weshalb sie zuerst in math.complex umgewandelt werden muessen
-        z1 = math.complex(z1); 
-        z2 = math.complex(z2);
+        z1 = parseComplexInput(z1);
+        z2 = parseComplexInput(z2);
     } catch (error) {
-        console.log(error);
-        resultCell.innerHTML = decodeURI("ung%C3%BCltige Eingabe");
+        showInvalidInput(error);
         return;
     }
 
