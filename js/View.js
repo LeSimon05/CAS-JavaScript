@@ -1,3 +1,14 @@
+//Darstellungskonstanten fuer das Koordinatensystem
+const AXIS_COLOR = "#000000";
+const ARROW_COLOR = "#ff0000";
+const AXIS_LINE_WIDTH = 1;
+const ARROW_LINE_WIDTH = 2;
+const LABEL_FONT = "12px Arial";
+const TICK_HALF_LENGTH = 10; //halbe Laenge eines Skalenstrichs (in Pixeln)
+const LABEL_GAP = 25; //Abstand der Achsenbeschriftung von der jeweiligen Achse
+const LABEL_BASELINE_NUDGE = 3; //vertikale Feinkorrektur der y-Achsen-Beschriftung
+const SHARPEN_OFFSET = 0.5; //Verschiebung um halbes Pixel gegen unscharfe vertikale Linien
+
 class View {
     constructor() {
         this.canvas = document.getElementById("Canvas");
@@ -23,21 +34,20 @@ class View {
         let centreX = this.canvas.width/2;
         let centreY = this.canvas.height/2;
         
-        //Linienfarbe wird auf schwarz gesetzt und die Dicke der Linie wird auf 1 gesetzt
-        this.context.strokeStyle = "#000000";
-        this.context.lineWidth = 1;
+        this.context.strokeStyle = AXIS_COLOR;
+        this.context.lineWidth = AXIS_LINE_WIDTH;
 
         //x-Achse und y-Achse werden gezeichnet
         this.context.beginPath();
         this.context.moveTo(0, centreY);
         this.context.lineTo(this.canvas.width, centreY);
-        this.context.moveTo(centreX + 0.5, 0); //Damit vertikale Linien nicht unscharf erscheinen, muessen sie um 0.5 verschoben werden
-        this.context.lineTo(centreX + 0.5, this.canvas.height);
+        this.context.moveTo(centreX + SHARPEN_OFFSET, 0);
+        this.context.lineTo(centreX + SHARPEN_OFFSET, this.canvas.height);
         this.context.stroke();
 
         //Koordinatenbeschriftung wird formatiert
         this.context.textAlign = "center";
-        this.context.font = "12px Arial"
+        this.context.font = LABEL_FONT
 
         let decimals = this.getDecimalPlaces(this.userScaling);
 
@@ -61,22 +71,22 @@ class View {
     //Zeichnet einen Skalenstrich samt Beschriftung auf der x-Achse beim n-ten Schritt (n auch negativ)
     drawXAxisTick(n, centreX, centreY, decimals) {
         let x = centreX + n * this.canvasScaling;
-        this.context.moveTo(x + 0.5, centreY - 10); //+0.5, damit vertikale Linien nicht unscharf erscheinen
-        this.context.lineTo(x + 0.5, centreY + 10);
-        this.context.fillText(math.round(n * this.userScaling, decimals), x, centreY + 25);
+        this.context.moveTo(x + SHARPEN_OFFSET, centreY - TICK_HALF_LENGTH);
+        this.context.lineTo(x + SHARPEN_OFFSET, centreY + TICK_HALF_LENGTH);
+        this.context.fillText(math.round(n * this.userScaling, decimals), x, centreY + LABEL_GAP);
     }
 
     //Zeichnet einen Skalenstrich samt Beschriftung auf der y-Achse beim n-ten Schritt (n auch negativ)
     drawYAxisTick(n, centreX, centreY, decimals) {
         let y = centreY - n * this.canvasScaling;
-        this.context.moveTo(centreX - 10, y);
-        this.context.lineTo(centreX + 10, y);
-        this.context.fillText(math.round(n * this.userScaling, decimals), centreX + 25, y + 3);
+        this.context.moveTo(centreX - TICK_HALF_LENGTH, y);
+        this.context.lineTo(centreX + TICK_HALF_LENGTH, y);
+        this.context.fillText(math.round(n * this.userScaling, decimals), centreX + LABEL_GAP, y + LABEL_BASELINE_NUDGE);
     }
 
     drawArrow(x, y) {
-        this.context.strokeStyle = "#ff0000";
-        this.context.lineWidth = 2;
+        this.context.strokeStyle = ARROW_COLOR;
+        this.context.lineWidth = ARROW_LINE_WIDTH;
         this.context.beginPath();
         this.context.moveTo(this.canvas.width/2, this.canvas.height/2);
         this.context.lineTo(this.canvas.width/2 + x*this.canvasScaling/this.userScaling, this.canvas.height/2 - y*this.canvasScaling/this.userScaling);
