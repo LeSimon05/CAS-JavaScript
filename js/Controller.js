@@ -15,7 +15,7 @@ function parseComplexInput(raw) {
 //Zeigt den Hinweis auf eine ungueltige Eingabe an und protokolliert den Fehler
 function showInvalidInput(error) {
     console.log(error);
-    resultCell.innerHTML = decodeURI("ung%C3%BCltige Eingabe");
+    resultCell.innerHTML = "ungültige Eingabe";
 }
 
 function calcOneNumber(z, operator) {
