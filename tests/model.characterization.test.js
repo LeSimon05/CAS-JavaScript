@@ -48,17 +48,17 @@ test("calculateOneNumber: unbekannter Operator liefert undefined", () => {
   assert.equal(model.calculateOneNumber(complex("1+1i"), "bogus"), undefined);
 });
 
-test("getVectorAngle: aktuelles Verhalten (atan, OHNE Quadranten-Korrektur)", () => {
+test("getVectorAngle: voller Quadranten-Bereich via atan2 (-180°, 180°]", () => {
   const model = new Model();
-  // Korrekte Quadranten (erste/vierte) – stimmen schon heute:
+  // Erster/vierter Quadrant:
   assert.equal(model.getVectorAngle(complex("1+1i")), "45°");
   assert.equal(model.getVectorAngle(complex("1-1i")), "-45°");
   assert.equal(model.getVectorAngle(complex("0+1i")), "90°");
   assert.equal(model.getVectorAngle(complex("0-1i")), "-90°");
-  // BUG: zweiter/dritter Quadrant und negative reelle Achse liefern falsche Winkel.
-  assert.equal(model.getVectorAngle(complex("-1-1i")), "45°"); // korrekt wären -135°
-  assert.equal(model.getVectorAngle(complex("-1+1i")), "-45°"); // korrekt wären 135°
-  assert.equal(model.getVectorAngle(complex("-1+0i")), "0°"); // korrekt wären 180°
+  // Zweiter/dritter Quadrant und negative reelle Achse (zuvor falsch):
+  assert.equal(model.getVectorAngle(complex("-1-1i")), "-135°");
+  assert.equal(model.getVectorAngle(complex("-1+1i")), "135°");
+  assert.equal(model.getVectorAngle(complex("-1+0i")), "180°");
 });
 
 test("addNumber / getListofAnswers / resetListofAnswers", () => {
