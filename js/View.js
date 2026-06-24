@@ -88,59 +88,35 @@ class View {
         this.drawCoordinateSystem();
     }
 
-    toggleScale(button) {
-        switch(button) {
-            case "increase":
-                switch(true) {
-                    case this.userScaling < 0.1:
-                        this.userScaling *= 10;
-                        break;
-                    case this.userScaling == 0.1:
-                        this.userScaling = 0.125;
-                        break;
-                    case this.userScaling == 0.125 || this.userScaling == 0.25 || this.userScaling == 0.5:
-                        this.userScaling *= 2;
-                        break;
-                    case this.userScaling >= 10 && this.userScaling < 100:
-                        this.userScaling += 10;
-                        break;
-                    case this.userScaling >= 100:
-                        this.userScaling += 100;
-                        break;
-                    default:
-                        this.userScaling++;
-                        break;
-                }
-                break;
-            case "decrease":
-                switch(true) {
-                    case this.userScaling > 100:
-                        this.userScaling -= 100;
-                        break;
-                    case this.userScaling > 10 && this.userScaling <= 100:
-                        this.userScaling -= 10;
-                        break;
-                    case this.userScaling == 1 || this.userScaling == 0.5 || this.userScaling == 0.25:
-                        this.userScaling /= 2;
-                        break;
-                    case this.userScaling == 0.125:
-                        this.userScaling = 0.1;
-                        break;
-                    case this.userScaling <= 0.1 && this.userScaling > 0.00001:
-                        this.userScaling /= 10;
-                        break;
-                    case this.userScaling == 0.00001:
-                        break;
-                    default:
-                        this.userScaling--;
-                        break;
-                }
-                break;
-            default:
-                break;
+    toggleScale(direction) {
+        if (direction === "increase") {
+            this.userScaling = this.nextScaleUp(this.userScaling);
+        } else if (direction === "decrease") {
+            this.userScaling = this.nextScaleDown(this.userScaling);
         }
         this.reset();
         return this.userScaling;
+    }
+
+    //Naechstgroessere Stufe der Maßstabsleiter: feiner Schritt unter 1, sonst um eine Groessenordnung
+    nextScaleUp(scale) {
+        if (scale < 0.1) return scale * 10;
+        if (scale === 0.1) return 0.125;
+        if (scale === 0.125 || scale === 0.25 || scale === 0.5) return scale * 2;
+        if (scale >= 10 && scale < 100) return scale + 10;
+        if (scale >= 100) return scale + 100;
+        return scale + 1;
+    }
+
+    //Naechstkleinere Stufe der Maßstabsleiter; 0.00001 ist das Minimum (bleibt geklemmt)
+    nextScaleDown(scale) {
+        if (scale > 100) return scale - 100;
+        if (scale > 10 && scale <= 100) return scale - 10;
+        if (scale === 1 || scale === 0.5 || scale === 0.25) return scale / 2;
+        if (scale === 0.125) return 0.1;
+        if (scale <= 0.1 && scale > 0.00001) return scale / 10;
+        if (scale === 0.00001) return scale;
+        return scale - 1;
     }
 
     getDecimalPlaces(i) {
