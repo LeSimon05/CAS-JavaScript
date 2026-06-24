@@ -56,17 +56,19 @@ function calcTwoNumbers(z1, z2, operator) {
         return;
     }
 
-    let ans = model.calculateTwoNumbers(z1, z2, operator);
-
-    /*
-    Teilt man durch 0, kommt als Ergebnis Infinity raus (was eigentlich nicht stimmt)
-    */
-    if (ans == "Infinity") {
-        ans = "Nicht definiert!";
-    } else {
-        model.addNumber(ans);
-        view.drawArrow(ans.re, ans.im);
+    let ans;
+    try {
+        ans = model.calculateTwoNumbers(z1, z2, operator);
+    } catch (error) {
+        if (error instanceof DivisionByZeroError) {
+            document.getElementById("resultCell").innerHTML = "Nicht definiert!"; //Division durch 0 hat kein darstellbares Ergebnis
+            return;
+        }
+        throw error;
     }
+
+    model.addNumber(ans);
+    view.drawArrow(ans.re, ans.im);
     document.getElementById("resultCell").innerHTML = ans;
 }
 

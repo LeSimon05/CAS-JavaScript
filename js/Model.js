@@ -10,6 +10,21 @@ const Operators = {
     inverse: "inverse",
 };
 
+//Fehlertypen fuer ungueltige Berechnungen (statt magischer Sentinel-Strings)
+class InvalidOperatorError extends Error {
+    constructor(operator) {
+        super(`Unbekannter Operator: ${operator}`);
+        this.name = "InvalidOperatorError";
+    }
+}
+
+class DivisionByZeroError extends Error {
+    constructor() {
+        super("Division durch 0");
+        this.name = "DivisionByZeroError";
+    }
+}
+
 class Model {
 
     constructor() {
@@ -33,9 +48,15 @@ class Model {
                 ans = math.divide(z1, z2);
                 break;
             default:
-                return "Wrong Operator";
+                throw new InvalidOperatorError(operator);
         }
-        return math.round(ans, 2); //Das Ergebnis wird vorher auf zwei Nachkommastellen gerundet und dann zurueckgegeben
+
+        let result = math.round(ans, 2); //Ergebnis auf zwei Nachkommastellen runden
+        //Division durch 0 ergibt das gerichtungslose Unendlich (re/im = Infinity) und ist kein gueltiges Ergebnis
+        if (Math.abs(result.re) === Infinity) {
+            throw new DivisionByZeroError();
+        }
+        return result;
     }
 
     //Funktion, um einen Operator auf eine Zahl anzuwenden

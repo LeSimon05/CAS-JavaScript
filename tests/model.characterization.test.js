@@ -13,7 +13,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const { loadModel } = require("./_loadModel.js");
 
-const { Model, Operators, math } = loadModel();
+const { Model, Operators, InvalidOperatorError, DivisionByZeroError, math } = loadModel();
 const complex = (value) => math.complex(value);
 const asString = (value) => (value && value.toString ? value.toString() : String(value));
 
@@ -25,15 +25,26 @@ test("calculateTwoNumbers: Grundrechenarten, auf 2 Nachkommastellen gerundet", (
   assert.equal(asString(model.calculateTwoNumbers(complex("1+2i"), complex("3+4i"), Operators.divide)), "0.44 + 0.08i");
 });
 
-test("calculateTwoNumbers: Division durch 0 ergibt Infinity (== \"Infinity\")", () => {
+test("calculateTwoNumbers: Division (ungleich 0) durch 0 wirft DivisionByZeroError", () => {
   const model = new Model();
-  const result = model.calculateTwoNumbers(complex("1+2i"), complex("0"), Operators.divide);
-  assert.ok(result == "Infinity");
+  assert.throws(
+    () => model.calculateTwoNumbers(complex("1+2i"), complex("0"), Operators.divide),
+    DivisionByZeroError,
+  );
 });
 
-test("calculateTwoNumbers: unbekannter Operator liefert Sentinel-String", () => {
+test("calculateTwoNumbers: 0/0 wirft NICHT, sondern liefert NaN (erhaltene Eigenheit)", () => {
   const model = new Model();
-  assert.equal(model.calculateTwoNumbers(complex("1+2i"), complex("3+4i"), "bogus"), "Wrong Operator");
+  const result = model.calculateTwoNumbers(complex("0"), complex("0"), Operators.divide);
+  assert.ok(Number.isNaN(result.re));
+});
+
+test("calculateTwoNumbers: unbekannter Operator wirft InvalidOperatorError", () => {
+  const model = new Model();
+  assert.throws(
+    () => model.calculateTwoNumbers(complex("1+2i"), complex("3+4i"), "bogus"),
+    InvalidOperatorError,
+  );
 });
 
 test("calculateOneNumber: Betrag, Konjugierte, Kehrwert", () => {

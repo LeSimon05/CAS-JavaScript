@@ -16,13 +16,21 @@ function loadModel() {
   const math = require(path.join(__dirname, "..", "js", "lib", "mathjs", "math.js"));
   const source =
     fs.readFileSync(path.join(__dirname, "..", "js", "Model.js"), "utf8") +
-    "\nglobalThis.Model = Model; globalThis.Operators = Operators;";
+    "\nglobalThis.Model = Model; globalThis.Operators = Operators;" +
+    " globalThis.InvalidOperatorError = InvalidOperatorError;" +
+    " globalThis.DivisionByZeroError = DivisionByZeroError;";
 
   const context = { math, console };
   vm.createContext(context);
   vm.runInContext(source, context, { filename: "Model.js" });
 
-  return { Model: context.Model, Operators: context.Operators, math };
+  return {
+    Model: context.Model,
+    Operators: context.Operators,
+    InvalidOperatorError: context.InvalidOperatorError,
+    DivisionByZeroError: context.DivisionByZeroError,
+    math,
+  };
 }
 
 module.exports = { loadModel };
