@@ -20,8 +20,8 @@ class View {
     }
 
     drawCoordinateSystem() {
-        let centre_x = this.canvas.width/2;
-        let centre_y = this.canvas.height/2;
+        let centreX = this.canvas.width/2;
+        let centreY = this.canvas.height/2;
         
         //Linienfarbe wird auf schwarz gesetzt und die Dicke der Linie wird auf 1 gesetzt
         this.context.strokeStyle = "#000000";
@@ -29,10 +29,10 @@ class View {
 
         //x-Achse und y-Achse werden gezeichnet
         this.context.beginPath();
-        this.context.moveTo(0, centre_y);
-        this.context.lineTo(this.canvas.width, centre_y);
-        this.context.moveTo(centre_x + 0.5, 0); //Damit vertikale Linien nicht unscharf erscheinen, muessen sie um 0.5 verschoben werden
-        this.context.lineTo(centre_x + 0.5, this.canvas.height);
+        this.context.moveTo(0, centreY);
+        this.context.lineTo(this.canvas.width, centreY);
+        this.context.moveTo(centreX + 0.5, 0); //Damit vertikale Linien nicht unscharf erscheinen, muessen sie um 0.5 verschoben werden
+        this.context.lineTo(centreX + 0.5, this.canvas.height);
         this.context.stroke();
 
         //Koordinatenbeschriftung wird formatiert
@@ -43,17 +43,17 @@ class View {
 
         //x-Achse wird beschriftet (positive und negative Richtung)
         this.context.beginPath();
-        for (let i = 0; i < centre_x/this.canvasScaling; i++) {
-            this.drawXAxisTick(i + 1, centre_x, centre_y, decimals);
-            this.drawXAxisTick(-(i + 1), centre_x, centre_y, decimals);
+        for (let i = 0; i < centreX/this.canvasScaling; i++) {
+            this.drawXAxisTick(i + 1, centreX, centreY, decimals);
+            this.drawXAxisTick(-(i + 1), centreX, centreY, decimals);
         }
         this.context.stroke();
 
         //y-Achse wird beschriftet (positive und negative Richtung)
         this.context.beginPath();
-        for (let i = 0; i < centre_y/this.canvasScaling; i++) {
-            this.drawYAxisTick(i + 1, centre_x, centre_y, decimals);
-            this.drawYAxisTick(-(i + 1), centre_x, centre_y, decimals);
+        for (let i = 0; i < centreY/this.canvasScaling; i++) {
+            this.drawYAxisTick(i + 1, centreX, centreY, decimals);
+            this.drawYAxisTick(-(i + 1), centreX, centreY, decimals);
         }
         this.context.stroke();
     }
@@ -74,12 +74,12 @@ class View {
         this.context.fillText(math.round(n * this.userScaling, decimals), centreX + 25, y + 3);
     }
 
-    drawArrow(xDes, yDes) {
+    drawArrow(x, y) {
         this.context.strokeStyle = "#ff0000";
         this.context.lineWidth = 2;
         this.context.beginPath();
         this.context.moveTo(this.canvas.width/2, this.canvas.height/2);
-        this.context.lineTo(this.canvas.width/2 + xDes*this.canvasScaling/this.userScaling, this.canvas.height/2 - yDes*this.canvasScaling/this.userScaling);
+        this.context.lineTo(this.canvas.width/2 + x*this.canvasScaling/this.userScaling, this.canvas.height/2 - y*this.canvasScaling/this.userScaling);
         this.context.stroke();
     }
 
@@ -119,10 +119,10 @@ class View {
         return scale - 1;
     }
 
-    getDecimalPlaces(i) {
-        if (Number.isInteger(i)) return 0;
+    getDecimalPlaces(value) {
+        if (Number.isInteger(value)) return 0;
         else {
-            return i.toString().split(".")[1].length;
+            return value.toString().split(".")[1].length;
         }
     }
 }
