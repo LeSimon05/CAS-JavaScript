@@ -1,0 +1,73 @@
+"use strict";
+
+/*
+ * Charakterisierungstests für js/Model.js.
+ *
+ * Sie schreiben das AKTUELLE Verhalten fest — inklusive bekannter Bugs
+ * (siehe getVectorAngle). Das ist Absicht: vorher grün + nachher grün belegt,
+ * dass reines Refactoring verhaltenserhaltend war. Bewusste Bugfixes ändern
+ * diese Erwartungen explizit in einem separaten Commit.
+ */
+
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const { loadModel } = require("./_loadModel.js");
+
+const { Model, Operators, math } = loadModel();
+const complex = (value) => math.complex(value);
+const asString = (value) => (value && value.toString ? value.toString() : String(value));
+
+test("calculateTwoNumbers: Grundrechenarten, auf 2 Nachkommastellen gerundet", () => {
+  const model = new Model();
+  assert.equal(asString(model.calculateTwoNumbers(complex("1+2i"), complex("3+4i"), Operators.add)), "4 + 6i");
+  assert.equal(asString(model.calculateTwoNumbers(complex("1+2i"), complex("3+4i"), Operators.subtract)), "-2 - 2i");
+  assert.equal(asString(model.calculateTwoNumbers(complex("1+2i"), complex("3+4i"), Operators.multiply)), "-5 + 10i");
+  assert.equal(asString(model.calculateTwoNumbers(complex("1+2i"), complex("3+4i"), Operators.divide)), "0.44 + 0.08i");
+});
+
+test("calculateTwoNumbers: Division durch 0 ergibt Infinity (== \"Infinity\")", () => {
+  const model = new Model();
+  const result = model.calculateTwoNumbers(complex("1+2i"), complex("0"), Operators.divide);
+  assert.ok(result == "Infinity");
+});
+
+test("calculateTwoNumbers: unbekannter Operator liefert Sentinel-String", () => {
+  const model = new Model();
+  assert.equal(model.calculateTwoNumbers(complex("1+2i"), complex("3+4i"), "bogus"), "Wrong Operator");
+});
+
+test("calculateOneNumber: Betrag, Konjugierte, Kehrwert", () => {
+  const model = new Model();
+  assert.equal(asString(model.calculateOneNumber(complex("3+4i"), Operators.absoluteValue)), "5");
+  assert.equal(asString(model.calculateOneNumber(complex("3+4i"), Operators.conjugate)), "3 - 4i");
+  assert.equal(asString(model.calculateOneNumber(complex("2+0i"), Operators.inverse)), "0.5");
+});
+
+test("calculateOneNumber: unbekannter Operator liefert undefined", () => {
+  const model = new Model();
+  assert.equal(model.calculateOneNumber(complex("1+1i"), "bogus"), undefined);
+});
+
+test("getVectorAngle: aktuelles Verhalten (atan, OHNE Quadranten-Korrektur)", () => {
+  const model = new Model();
+  // Korrekte Quadranten (erste/vierte) – stimmen schon heute:
+  assert.equal(model.getVectorAngle(complex("1+1i")), "45°");
+  assert.equal(model.getVectorAngle(complex("1-1i")), "-45°");
+  assert.equal(model.getVectorAngle(complex("0+1i")), "90°");
+  assert.equal(model.getVectorAngle(complex("0-1i")), "-90°");
+  // BUG: zweiter/dritter Quadrant und negative reelle Achse liefern falsche Winkel.
+  assert.equal(model.getVectorAngle(complex("-1-1i")), "45°"); // korrekt wären -135°
+  assert.equal(model.getVectorAngle(complex("-1+1i")), "-45°"); // korrekt wären 135°
+  assert.equal(model.getVectorAngle(complex("-1+0i")), "0°"); // korrekt wären 180°
+});
+
+test("addNumber / getListofAnswers / resetListofAnswers", () => {
+  const model = new Model();
+  model.addNumber(complex("3+4i"));
+  model.addNumber(complex("1-2i"));
+  // JSON-Vergleich, weil die Arrays im VM-Kontext einen anderen Array-Prototyp
+  // haben und deepStrictEqual sonst realm-übergreifend fehlschlägt.
+  assert.equal(JSON.stringify(model.getListofAnswers()), JSON.stringify([[3, 4], [1, -2]]));
+  model.resetListofAnswers();
+  assert.equal(JSON.stringify(model.getListofAnswers()), "[]");
+});

@@ -1,0 +1,9 @@
+{
+  "name": "cas-javascript",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Computeralgebrasystem für komplexe Zahlen (Vanilla HTML/JS/CSS)",
+  "scripts": {
+    "test": "node --test"
+  }
+}
