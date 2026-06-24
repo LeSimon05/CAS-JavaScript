@@ -10,6 +10,9 @@ const Operators = {
     inverse: "inverse",
 };
 
+//Anzahl der Nachkommastellen, auf die Ergebnisse gerundet werden
+const DECIMAL_PLACES = 2;
+
 //Fehlertypen fuer ungueltige Berechnungen (statt magischer Sentinel-Strings)
 class InvalidOperatorError extends Error {
     constructor(operator) {
@@ -51,7 +54,7 @@ class Model {
                 throw new InvalidOperatorError(operator);
         }
 
-        let result = math.round(ans, 2); //Ergebnis auf zwei Nachkommastellen runden
+        let result = math.round(ans, DECIMAL_PLACES);
         //Division durch 0 ergibt das gerichtungslose Unendlich (re/im = Infinity) und ist kein gueltiges Ergebnis
         if (Math.abs(result.re) === Infinity) {
             throw new DivisionByZeroError();
@@ -63,7 +66,7 @@ class Model {
     calculateOneNumber(z, operator) {    
         switch(operator) {
             case Operators.absoluteValue:
-                return math.round(math.abs(z), 2);
+                return math.round(math.abs(z), DECIMAL_PLACES);
             case Operators.vectorAngle:
                 return this.getVectorAngle(z);
             case Operators.conjugate:
@@ -84,7 +87,7 @@ class Model {
         let b = z.im;
 
         let angle = math.divide(math.atan2(b, a), Math.PI) * 180;
-        return math.round(angle, 2) + "°";
+        return math.round(angle, DECIMAL_PLACES) + "°";
     }
 
     addNumber(z) {
