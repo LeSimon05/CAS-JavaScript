@@ -72,7 +72,7 @@ class Model {
             case Operators.conjugate:
                 return math.conj(z);
             case Operators.inverse:
-                return z.inverse(z);
+                return z.inverse();
         }
     }
 
@@ -91,7 +91,7 @@ class Model {
     }
 
     addNumber(z) {
-        this.listOfAnswers[this.listOfAnswers.length] = [z.re, z.im];
+        this.listOfAnswers.push([z.re, z.im]);
     }
 
     getListofAnswers() {

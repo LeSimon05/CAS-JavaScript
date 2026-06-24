@@ -131,8 +131,6 @@ class View {
 
     getDecimalPlaces(value) {
         if (Number.isInteger(value)) return 0;
-        else {
-            return value.toString().split(".")[1].length;
-        }
+        return value.toString().split(".")[1].length;
     }
 }
