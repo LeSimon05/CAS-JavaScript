@@ -39,38 +39,39 @@ class View {
         this.context.textAlign = "center";
         this.context.font = "12px Arial"
 
-        //x-Achse wird beschriftet
+        let decimals = this.getDecimalPlaces(this.userScaling);
+
+        //x-Achse wird beschriftet (positive und negative Richtung)
         this.context.beginPath();
         for (let i = 0; i < centre_x/this.canvasScaling; i++) {
-
-            //in die positive Richtung
-            this.context.moveTo(centre_x + ((i + 1) * this.canvasScaling) + 0.5, centre_y - 10);
-            this.context.lineTo(centre_x + ((i + 1) * this.canvasScaling) + 0.5, centre_y + 10);
-            this.context.fillText(math.round((i + 1)*this.userScaling, this.getDecimalPlaces(this.userScaling)), centre_x + ((i + 1) * this.canvasScaling), centre_y + 25);
-
-            //in die negative Richtung
-            this.context.moveTo(centre_x - ((i + 1) * this.canvasScaling) + 0.5, centre_y - 10);
-            this.context.lineTo(centre_x - ((i + 1) * this.canvasScaling) + 0.5, centre_y + 10);
-            this.context.fillText(math.round((-i - 1)*this.userScaling, this.getDecimalPlaces(this.userScaling)), centre_x - ((i + 1) * this.canvasScaling), centre_y + 25);
-
+            this.drawXAxisTick(i + 1, centre_x, centre_y, decimals);
+            this.drawXAxisTick(-(i + 1), centre_x, centre_y, decimals);
         }
         this.context.stroke();
 
-        //y-Achse wird beschriftet
+        //y-Achse wird beschriftet (positive und negative Richtung)
         this.context.beginPath();
         for (let i = 0; i < centre_y/this.canvasScaling; i++) {
-
-            //in die postive Richtung
-            this.context.moveTo(centre_x - 10, centre_y - ((i + 1) * this.canvasScaling));
-            this.context.lineTo(centre_x + 10, centre_y - ((i + 1) * this.canvasScaling));
-            this.context.fillText(math.round((i + 1)*this.userScaling, this.getDecimalPlaces(this.userScaling)), centre_x + 25, centre_y - ((i + 1) * this.canvasScaling) + 3);
-
-            //in die negative Richtung
-            this.context.moveTo(centre_x - 10, centre_y + ((i + 1) * this.canvasScaling));
-            this.context.lineTo(centre_x + 10, centre_y + ((i + 1) * this.canvasScaling));
-            this.context.fillText(math.round((-i - 1)*this.userScaling, this.getDecimalPlaces(this.userScaling)), centre_x + 25, centre_y + ((i + 1) * this.canvasScaling) + 3);
+            this.drawYAxisTick(i + 1, centre_x, centre_y, decimals);
+            this.drawYAxisTick(-(i + 1), centre_x, centre_y, decimals);
         }
         this.context.stroke();
+    }
+
+    //Zeichnet einen Skalenstrich samt Beschriftung auf der x-Achse beim n-ten Schritt (n auch negativ)
+    drawXAxisTick(n, centreX, centreY, decimals) {
+        let x = centreX + n * this.canvasScaling;
+        this.context.moveTo(x + 0.5, centreY - 10); //+0.5, damit vertikale Linien nicht unscharf erscheinen
+        this.context.lineTo(x + 0.5, centreY + 10);
+        this.context.fillText(math.round(n * this.userScaling, decimals), x, centreY + 25);
+    }
+
+    //Zeichnet einen Skalenstrich samt Beschriftung auf der y-Achse beim n-ten Schritt (n auch negativ)
+    drawYAxisTick(n, centreX, centreY, decimals) {
+        let y = centreY - n * this.canvasScaling;
+        this.context.moveTo(centreX - 10, y);
+        this.context.lineTo(centreX + 10, y);
+        this.context.fillText(math.round(n * this.userScaling, decimals), centreX + 25, y + 3);
     }
 
     drawArrow(xDes, yDes) {
