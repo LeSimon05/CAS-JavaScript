@@ -39,8 +39,8 @@ class View {
     }
 
     drawCoordinateSystem() {
-        let centreX = this.width/2;
-        let centreY = this.height/2;
+        let centreX = this.width / 2;
+        let centreY = this.height / 2;
 
         this.context.strokeStyle = AXIS_COLOR;
         this.context.lineWidth = AXIS_LINE_WIDTH;
@@ -55,13 +55,13 @@ class View {
 
         //Koordinatenbeschriftung wird formatiert
         this.context.textAlign = "center";
-        this.context.font = LABEL_FONT
+        this.context.font = LABEL_FONT;
 
         let decimals = this.getDecimalPlaces(this.userScaling);
 
         //x-Achse wird beschriftet (positive und negative Richtung)
         this.context.beginPath();
-        for (let i = 0; i < centreX/this.canvasScaling; i++) {
+        for (let i = 0; i < centreX / this.canvasScaling; i++) {
             this.drawXAxisTick(i + 1, centreX, centreY, decimals);
             this.drawXAxisTick(-(i + 1), centreX, centreY, decimals);
         }
@@ -69,7 +69,7 @@ class View {
 
         //y-Achse wird beschriftet (positive und negative Richtung)
         this.context.beginPath();
-        for (let i = 0; i < centreY/this.canvasScaling; i++) {
+        for (let i = 0; i < centreY / this.canvasScaling; i++) {
             this.drawYAxisTick(i + 1, centreX, centreY, decimals);
             this.drawYAxisTick(-(i + 1), centreX, centreY, decimals);
         }
@@ -81,7 +81,11 @@ class View {
         let x = centreX + n * this.canvasScaling;
         this.context.moveTo(x + SHARPEN_OFFSET, centreY - TICK_HALF_LENGTH);
         this.context.lineTo(x + SHARPEN_OFFSET, centreY + TICK_HALF_LENGTH);
-        this.context.fillText(math.round(n * this.userScaling, decimals), x, centreY + LABEL_GAP);
+        this.context.fillText(
+            math.round(n * this.userScaling, decimals),
+            x,
+            centreY + LABEL_GAP,
+        );
     }
 
     //Zeichnet einen Skalenstrich samt Beschriftung auf der y-Achse beim n-ten Schritt (n auch negativ)
@@ -89,15 +93,22 @@ class View {
         let y = centreY - n * this.canvasScaling;
         this.context.moveTo(centreX - TICK_HALF_LENGTH, y);
         this.context.lineTo(centreX + TICK_HALF_LENGTH, y);
-        this.context.fillText(math.round(n * this.userScaling, decimals), centreX + LABEL_GAP, y + LABEL_BASELINE_NUDGE);
+        this.context.fillText(
+            math.round(n * this.userScaling, decimals),
+            centreX + LABEL_GAP,
+            y + LABEL_BASELINE_NUDGE,
+        );
     }
 
     drawArrow(x, y) {
         this.context.strokeStyle = ARROW_COLOR;
         this.context.lineWidth = ARROW_LINE_WIDTH;
         this.context.beginPath();
-        this.context.moveTo(this.width/2, this.height/2);
-        this.context.lineTo(this.width/2 + x*this.canvasScaling/this.userScaling, this.height/2 - y*this.canvasScaling/this.userScaling);
+        this.context.moveTo(this.width / 2, this.height / 2);
+        this.context.lineTo(
+            this.width / 2 + (x * this.canvasScaling) / this.userScaling,
+            this.height / 2 - (y * this.canvasScaling) / this.userScaling,
+        );
         this.context.stroke();
     }
 
@@ -120,7 +131,8 @@ class View {
     nextScaleUp(scale) {
         if (scale < 0.1) return scale * 10;
         if (scale === 0.1) return 0.125;
-        if (scale === 0.125 || scale === 0.25 || scale === 0.5) return scale * 2;
+        if (scale === 0.125 || scale === 0.25 || scale === 0.5)
+            return scale * 2;
         if (scale >= 10 && scale < 100) return scale + 10;
         if (scale >= 100) return scale + 100;
         return scale + 1;

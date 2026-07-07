@@ -13,29 +13,76 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const { loadModel } = require("./_loadModel.js");
 
-const { Model, Operators, InvalidOperatorError, DivisionByZeroError, math } = loadModel();
+const { Model, Operators, InvalidOperatorError, DivisionByZeroError, math } =
+  loadModel();
 const complex = (value) => math.complex(value);
-const asString = (value) => (value && value.toString ? value.toString() : String(value));
+const asString = (value) =>
+  value && value.toString ? value.toString() : String(value);
 
 test("calculateTwoNumbers: Grundrechenarten, auf 2 Nachkommastellen gerundet", () => {
   const model = new Model();
-  assert.equal(asString(model.calculateTwoNumbers(complex("1+2i"), complex("3+4i"), Operators.add)), "4 + 6i");
-  assert.equal(asString(model.calculateTwoNumbers(complex("1+2i"), complex("3+4i"), Operators.subtract)), "-2 - 2i");
-  assert.equal(asString(model.calculateTwoNumbers(complex("1+2i"), complex("3+4i"), Operators.multiply)), "-5 + 10i");
-  assert.equal(asString(model.calculateTwoNumbers(complex("1+2i"), complex("3+4i"), Operators.divide)), "0.44 + 0.08i");
+  assert.equal(
+    asString(
+      model.calculateTwoNumbers(
+        complex("1+2i"),
+        complex("3+4i"),
+        Operators.add,
+      ),
+    ),
+    "4 + 6i",
+  );
+  assert.equal(
+    asString(
+      model.calculateTwoNumbers(
+        complex("1+2i"),
+        complex("3+4i"),
+        Operators.subtract,
+      ),
+    ),
+    "-2 - 2i",
+  );
+  assert.equal(
+    asString(
+      model.calculateTwoNumbers(
+        complex("1+2i"),
+        complex("3+4i"),
+        Operators.multiply,
+      ),
+    ),
+    "-5 + 10i",
+  );
+  assert.equal(
+    asString(
+      model.calculateTwoNumbers(
+        complex("1+2i"),
+        complex("3+4i"),
+        Operators.divide,
+      ),
+    ),
+    "0.44 + 0.08i",
+  );
 });
 
 test("calculateTwoNumbers: Division (ungleich 0) durch 0 wirft DivisionByZeroError", () => {
   const model = new Model();
   assert.throws(
-    () => model.calculateTwoNumbers(complex("1+2i"), complex("0"), Operators.divide),
+    () =>
+      model.calculateTwoNumbers(
+        complex("1+2i"),
+        complex("0"),
+        Operators.divide,
+      ),
     DivisionByZeroError,
   );
 });
 
 test("calculateTwoNumbers: 0/0 wirft NICHT, sondern liefert NaN (erhaltene Eigenheit)", () => {
   const model = new Model();
-  const result = model.calculateTwoNumbers(complex("0"), complex("0"), Operators.divide);
+  const result = model.calculateTwoNumbers(
+    complex("0"),
+    complex("0"),
+    Operators.divide,
+  );
   assert.ok(Number.isNaN(result.re));
 });
 
@@ -49,9 +96,20 @@ test("calculateTwoNumbers: unbekannter Operator wirft InvalidOperatorError", () 
 
 test("calculateOneNumber: Betrag, Konjugierte, Kehrwert", () => {
   const model = new Model();
-  assert.equal(asString(model.calculateOneNumber(complex("3+4i"), Operators.absoluteValue)), "5");
-  assert.equal(asString(model.calculateOneNumber(complex("3+4i"), Operators.conjugate)), "3 - 4i");
-  assert.equal(asString(model.calculateOneNumber(complex("2+0i"), Operators.inverse)), "0.5");
+  assert.equal(
+    asString(
+      model.calculateOneNumber(complex("3+4i"), Operators.absoluteValue),
+    ),
+    "5",
+  );
+  assert.equal(
+    asString(model.calculateOneNumber(complex("3+4i"), Operators.conjugate)),
+    "3 - 4i",
+  );
+  assert.equal(
+    asString(model.calculateOneNumber(complex("2+0i"), Operators.inverse)),
+    "0.5",
+  );
 });
 
 test("calculateOneNumber: unbekannter Operator liefert undefined", () => {
@@ -80,7 +138,10 @@ test("addNumber / getListofAnswers / resetListofAnswers", () => {
   // haben und deepStrictEqual sonst realm-übergreifend fehlschlägt.
   assert.equal(
     JSON.stringify(model.getListofAnswers()),
-    JSON.stringify([{ re: 3, im: 4 }, { re: 1, im: -2 }]),
+    JSON.stringify([
+      { re: 3, im: 4 },
+      { re: 1, im: -2 },
+    ]),
   );
   model.resetListofAnswers();
   assert.equal(JSON.stringify(model.getListofAnswers()), "[]");

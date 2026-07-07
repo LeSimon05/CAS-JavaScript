@@ -19,9 +19,8 @@ function showInvalidInput(error) {
 }
 
 function calcOneNumber(z, operator) {
-
     resultCell.style.visibility = "visible"; //Da das Ergebnisfeld unsichtbar ist (siehe Kommentar in index.html), wird es wieder sichtbar gemacht
-    
+
     try {
         z = parseComplexInput(z);
     } catch (error) {
@@ -47,17 +46,20 @@ function calcOneNumber(z, operator) {
 }
 
 for (let td of document.getElementsByClassName("operatorButtonCellZ1")) {
-    td.firstChild.onclick = function() {calcOneNumber(z1Input.value, td.firstChild.name);};
+    td.firstChild.onclick = function () {
+        calcOneNumber(z1Input.value, td.firstChild.name);
+    };
 }
 
 for (let td of document.getElementsByClassName("operatorButtonCellZ2")) {
-    td.firstChild.onclick = function() {calcOneNumber(z2Input.value, td.firstChild.name);};
+    td.firstChild.onclick = function () {
+        calcOneNumber(z2Input.value, td.firstChild.name);
+    };
 }
-
 
 function calcTwoNumbers(z1, z2, operator) {
     resultCell.style.visibility = "visible";
-    
+
     try {
         z1 = parseComplexInput(z1);
         z2 = parseComplexInput(z2);
@@ -83,9 +85,10 @@ function calcTwoNumbers(z1, z2, operator) {
 }
 
 for (let td of document.getElementsByClassName("operator2ButtonCell")) {
-    td.firstChild.onclick = function() {calcTwoNumbers(z1Input.value, z2Input.value, td.firstChild.name);};
+    td.firstChild.onclick = function () {
+        calcTwoNumbers(z1Input.value, z2Input.value, td.firstChild.name);
+    };
 }
-
 
 function reset() {
     resultCell.innerHTML = "cleared";
@@ -96,19 +99,19 @@ function reset() {
     view.reset();
 }
 
-document.getElementById("resetButton").onclick = function() {
+document.getElementById("resetButton").onclick = function () {
     reset();
     model.resetListofAnswers();
 };
 
-document.getElementById("decreaseScaleButton").onclick = function() {
+document.getElementById("decreaseScaleButton").onclick = function () {
     scaleLabel.innerHTML = view.toggleScale("decrease");
     for (let num of model.getListofAnswers()) {
         view.drawArrow(num.re, num.im);
     }
 };
 
-document.getElementById("increaseScaleButton").onclick = function() {
+document.getElementById("increaseScaleButton").onclick = function () {
     scaleLabel.innerHTML = view.toggleScale("increase");
     for (let num of model.getListofAnswers()) {
         view.drawArrow(num.re, num.im);

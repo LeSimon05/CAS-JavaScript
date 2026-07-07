@@ -13,7 +13,9 @@ const path = require("path");
 const vm = require("vm");
 
 function loadModel() {
-  const math = require(path.join(__dirname, "..", "js", "lib", "mathjs", "math.js"));
+  const math = require(
+    path.join(__dirname, "..", "js", "lib", "mathjs", "math.js"),
+  );
   const source =
     fs.readFileSync(path.join(__dirname, "..", "js", "Model.js"), "utf8") +
     "\nglobalThis.Model = Model; globalThis.Operators = Operators;" +

@@ -16,23 +16,41 @@ const fs = require("fs");
 const path = require("path");
 const { createView } = require("./_loadView.js");
 
-const golden = JSON.parse(fs.readFileSync(path.join(__dirname, "fixtures", "view-calls.json"), "utf8"));
+const golden = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "fixtures", "view-calls.json"), "utf8"),
+);
 
 test("drawCoordinateSystem erzeugt unveränderte Canvas-Aufrufe (800x600, ppi 1)", () => {
-  const { calls } = createView({ clientWidth: 800, clientHeight: 600, devicePixelRatio: 1 });
+  const { calls } = createView({
+    clientWidth: 800,
+    clientHeight: 600,
+    devicePixelRatio: 1,
+  });
   assert.deepEqual(calls, golden.coordinateSystem);
 });
 
 test("drawArrow erzeugt unveränderte Canvas-Aufrufe", () => {
-  const { view, calls } = createView({ clientWidth: 800, clientHeight: 600, devicePixelRatio: 1 });
+  const { view, calls } = createView({
+    clientWidth: 800,
+    clientHeight: 600,
+    devicePixelRatio: 1,
+  });
   const baseline = calls.length;
   view.drawArrow(3, 4);
   assert.deepEqual(calls.slice(baseline), golden.afterArrow);
 });
 
 test("High-DPI: Bitmap skaliert, CSS-Groesse fixiert, Zeichenkoordinaten unveraendert", () => {
-  const lowDpi = createView({ clientWidth: 800, clientHeight: 600, devicePixelRatio: 1 });
-  const highDpi = createView({ clientWidth: 800, clientHeight: 600, devicePixelRatio: 2 });
+  const lowDpi = createView({
+    clientWidth: 800,
+    clientHeight: 600,
+    devicePixelRatio: 1,
+  });
+  const highDpi = createView({
+    clientWidth: 800,
+    clientHeight: 600,
+    devicePixelRatio: 2,
+  });
 
   // Bitmap dpr-fach, Anzeige (CSS) auf Containergroesse fixiert:
   assert.equal(highDpi.canvas.width, 1600);

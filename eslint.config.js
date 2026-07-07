@@ -26,7 +26,10 @@ module.exports = [
         },
         rules: {
             //Model/View werden dateiuebergreifend genutzt und wirken pro Datei "unbenutzt"
-            "no-unused-vars": ["error", { varsIgnorePattern: "^(Model|View)$" }],
+            "no-unused-vars": [
+                "error",
+                { varsIgnorePattern: "^(Model|View)$" },
+            ],
             //die definierende Datei "redeklariert" zwangslaeufig ihr eigenes Global
             "no-redeclare": ["error", { builtinGlobals: false }],
         },

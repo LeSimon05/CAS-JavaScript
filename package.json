@@ -1,17 +1,17 @@
 {
-  "name": "cas-javascript",
-  "version": "1.0.0",
-  "private": true,
-  "description": "Computeralgebrasystem für komplexe Zahlen (Vanilla HTML/JS/CSS)",
-  "scripts": {
-    "test": "node --test",
-    "lint": "eslint .",
-    "format": "prettier --write .",
-    "format:check": "prettier --check ."
-  },
-  "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "eslint": "^10.6.0",
-    "prettier": "^3.9.4"
-  }
+    "name": "cas-javascript",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Computeralgebrasystem für komplexe Zahlen (Vanilla HTML/JS/CSS)",
+    "scripts": {
+        "test": "node --test",
+        "lint": "eslint .",
+        "format": "prettier --write .",
+        "format:check": "prettier --check ."
+    },
+    "devDependencies": {
+        "@eslint/js": "^10.0.1",
+        "eslint": "^10.6.0",
+        "prettier": "^3.9.4"
+    }
 }

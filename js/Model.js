@@ -29,14 +29,13 @@ class DivisionByZeroError extends Error {
 }
 
 class Model {
-
     constructor() {
         this.listOfAnswers = [];
     }
 
     calculateTwoNumbers(z1, z2, operator) {
         let ans;
-        switch(operator) {
+        switch (operator) {
             case Operators.add:
                 ans = math.add(z1, z2);
                 break;
@@ -62,7 +61,7 @@ class Model {
     }
 
     calculateOneNumber(z, operator) {
-        switch(operator) {
+        switch (operator) {
             case Operators.absoluteValue:
                 return math.round(math.abs(z), DECIMAL_PLACES);
             case Operators.vectorAngle:
@@ -75,7 +74,6 @@ class Model {
     }
 
     getVectorAngle(z) {
-
         /*
         atan2 nutzt Real- und Imaginaerteil getrennt und erhaelt so den Quadranten
         (Ergebnis im Bereich (-180°, 180°]); atan(im/re) verloere ihn.

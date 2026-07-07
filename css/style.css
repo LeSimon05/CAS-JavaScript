@@ -1,18 +1,20 @@
-html, main{
+html,
+main {
     height: 100%;
 }
 
 body {
     height: 90%;
     display: grid;
-    grid-template-rows: min-content 1fr min-content; 
+    grid-template-rows: min-content 1fr min-content;
 }
 
 main > #UserInterface {
     width: max-content;
 }
 
-#UserInterface, #CanvasContainer {
+#UserInterface,
+#CanvasContainer {
     border-width: 3px;
     border-style: double;
     border-color: black;
@@ -27,7 +29,9 @@ button {
     width: 100%;
 }
 
-.operatorButtonCellZ1, .operatorButtonCellZ2, .operator2ButtonCell {
+.operatorButtonCellZ1,
+.operatorButtonCellZ2,
+.operator2ButtonCell {
     position: relative;
     width: 25%;
     padding-bottom: 2em;

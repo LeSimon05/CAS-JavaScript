@@ -12,8 +12,14 @@ const fs = require("fs");
 const path = require("path");
 const vm = require("vm");
 
-function createView({ clientWidth = 800, clientHeight = 600, devicePixelRatio = 1 } = {}) {
-  const math = require(path.join(__dirname, "..", "js", "lib", "mathjs", "math.js"));
+function createView({
+  clientWidth = 800,
+  clientHeight = 600,
+  devicePixelRatio = 1,
+} = {}) {
+  const math = require(
+    path.join(__dirname, "..", "js", "lib", "mathjs", "math.js"),
+  );
 
   const calls = [];
   const recorder = new Proxy(

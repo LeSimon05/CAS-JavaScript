@@ -16,15 +16,26 @@ function jsDir(file) {
   return fs.readFileSync(path.join(__dirname, "..", "js", file), "utf8");
 }
 
-function createApp({ devicePixelRatio = 1, clientWidth = 800, clientHeight = 600 } = {}) {
-  const math = require(path.join(__dirname, "..", "js", "lib", "mathjs", "math.js"));
+function createApp({
+  devicePixelRatio = 1,
+  clientWidth = 800,
+  clientHeight = 600,
+} = {}) {
+  const math = require(
+    path.join(__dirname, "..", "js", "lib", "mathjs", "math.js"),
+  );
 
   const canvasCalls = [];
   const recorder = new Proxy(
     {},
     {
-      get: (t, p) => (p in t ? t[p] : (...a) => canvasCalls.push([String(p), ...a])),
-      set: (t, p, v) => (canvasCalls.push(["set:" + String(p), v]), (t[p] = v), true),
+      get: (t, p) =>
+        p in t ? t[p] : (...a) => canvasCalls.push([String(p), ...a]),
+      set: (t, p, v) => (
+        canvasCalls.push(["set:" + String(p), v]),
+        (t[p] = v),
+        true
+      ),
     },
   );
 
@@ -65,9 +76,21 @@ function createApp({ devicePixelRatio = 1, clientWidth = 800, clientHeight = 600
 
   const buttonCell = (name) => ({ firstChild: { name, onclick: null } });
   const byClass = {
-    operatorButtonCellZ1: ["absoluteValue", "vectorAngle", "conjugate", "inverse"].map(buttonCell),
-    operatorButtonCellZ2: ["absoluteValue", "vectorAngle", "conjugate", "inverse"].map(buttonCell),
-    operator2ButtonCell: ["add", "subtract", "multiply", "divide"].map(buttonCell),
+    operatorButtonCellZ1: [
+      "absoluteValue",
+      "vectorAngle",
+      "conjugate",
+      "inverse",
+    ].map(buttonCell),
+    operatorButtonCellZ2: [
+      "absoluteValue",
+      "vectorAngle",
+      "conjugate",
+      "inverse",
+    ].map(buttonCell),
+    operator2ButtonCell: ["add", "subtract", "multiply", "divide"].map(
+      buttonCell,
+    ),
   };
 
   const logs = [];
@@ -81,7 +104,11 @@ function createApp({ devicePixelRatio = 1, clientWidth = 800, clientHeight = 600
     },
   };
 
-  const source = [jsDir("Model.js"), jsDir("View.js"), jsDir("Controller.js")].join("\n");
+  const source = [
+    jsDir("Model.js"),
+    jsDir("View.js"),
+    jsDir("Controller.js"),
+  ].join("\n");
   vm.createContext(context);
   vm.runInContext(source, context, { filename: "app.js" });
 

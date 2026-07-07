@@ -90,7 +90,10 @@ test("Maßstab-Klick zeichnet gespeicherte Zeiger neu (mit halbierter Skalierung
   const arrowLineTo = app.canvasCalls
     .slice(baseline)
     .find((c) => c[0] === "lineTo" && c[1] === 475 && c[2] === 200);
-  assert.ok(arrowLineTo, "erwarteter lineTo(475,200) des neu skalierten Zeigers fehlt");
+  assert.ok(
+    arrowLineTo,
+    "erwarteter lineTo(475,200) des neu skalierten Zeigers fehlt",
+  );
 });
 
 test("zurücksetzen leert Felder und versteckt das Ergebnis", () => {
