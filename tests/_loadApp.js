@@ -47,6 +47,7 @@ function createApp({ devicePixelRatio = 1, clientWidth = 800, clientHeight = 600
   const canvas = {
     width: 0,
     height: 0,
+    style: {},
     parentNode: { clientWidth, clientHeight },
     getContext: () => recorder,
   };

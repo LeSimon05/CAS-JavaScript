@@ -30,6 +30,24 @@ test("drawArrow erzeugt unveränderte Canvas-Aufrufe", () => {
   assert.deepEqual(calls.slice(baseline), golden.afterArrow);
 });
 
+test("High-DPI: Bitmap skaliert, CSS-Groesse fixiert, Zeichenkoordinaten unveraendert", () => {
+  const lowDpi = createView({ clientWidth: 800, clientHeight: 600, devicePixelRatio: 1 });
+  const highDpi = createView({ clientWidth: 800, clientHeight: 600, devicePixelRatio: 2 });
+
+  // Bitmap dpr-fach, Anzeige (CSS) auf Containergroesse fixiert:
+  assert.equal(highDpi.canvas.width, 1600);
+  assert.equal(highDpi.canvas.height, 1200);
+  assert.equal(highDpi.canvas.style.width, "800px");
+  assert.equal(highDpi.canvas.style.height, "600px");
+
+  // Kontext einmalig um dpr skaliert:
+  assert.deepEqual(highDpi.calls[0], ["scale", 2, 2]);
+
+  // Die logischen Zeichenaufrufe sind unabhaengig vom devicePixelRatio identisch:
+  const withoutScale = (calls) => calls.filter((c) => c[0] !== "scale");
+  assert.deepEqual(withoutScale(highDpi.calls), withoutScale(lowDpi.calls));
+});
+
 const stepScale = (view, direction, steps) => {
   const out = [];
   for (let i = 0; i < steps; i++) out.push(view.toggleScale(direction));

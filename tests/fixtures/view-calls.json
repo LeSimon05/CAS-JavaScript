@@ -1,6 +1,11 @@
 {
   "coordinateSystem": [
     [
+      "scale",
+      1,
+      1
+    ],
+    [
       "set:strokeStyle",
       "#000000"
     ],

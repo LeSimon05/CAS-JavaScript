@@ -36,6 +36,7 @@ function createView({ clientWidth = 800, clientHeight = 600, devicePixelRatio = 
   const canvas = {
     width: 0,
     height: 0,
+    style: {},
     parentNode: { clientWidth, clientHeight },
     getContext: () => recorder,
   };

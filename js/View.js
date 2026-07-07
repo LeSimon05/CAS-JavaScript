@@ -12,14 +12,26 @@ const SHARPEN_OFFSET = 0.5; //Verschiebung um halbes Pixel gegen unscharfe verti
 class View {
     constructor() {
         this.canvas = document.getElementById("Canvas");
-        
-        //Canvas breitet sich so gross wie moeglich aus
-        let td = this.canvas.parentNode;
-        let ppi = window.devicePixelRatio;
-        this.canvas.width = td.clientWidth * ppi;
-        this.canvas.height = td.clientHeight * ppi;
+
+        /*
+        Canvas breitet sich so gross wie moeglich aus. Fuer scharfe Darstellung auf
+        High-DPI-Displays wird das Bitmap um devicePixelRatio vergroessert; die
+        CSS-Groesse wird auf die Containergroesse fixiert und der Kontext skaliert,
+        damit der Zeichencode weiter in CSS-Pixeln rechnet. Ohne die CSS-Groesse
+        wuerde das vergroesserte Bitmap ueber den Container hinauslaufen und die
+        Darstellung "hineingezoomt" wirken.
+        */
+        let parent = this.canvas.parentNode;
+        let pixelRatio = window.devicePixelRatio;
+        this.width = parent.clientWidth; //logische Groesse in CSS-Pixeln
+        this.height = parent.clientHeight;
+        this.canvas.width = this.width * pixelRatio;
+        this.canvas.height = this.height * pixelRatio;
+        this.canvas.style.width = this.width + "px";
+        this.canvas.style.height = this.height + "px";
 
         this.context = this.canvas.getContext("2d");
+        this.context.scale(pixelRatio, pixelRatio);
         this.canvasScaling = 50;
         this.userScaling = 1;
 
@@ -27,18 +39,18 @@ class View {
     }
 
     drawCoordinateSystem() {
-        let centreX = this.canvas.width/2;
-        let centreY = this.canvas.height/2;
-        
+        let centreX = this.width/2;
+        let centreY = this.height/2;
+
         this.context.strokeStyle = AXIS_COLOR;
         this.context.lineWidth = AXIS_LINE_WIDTH;
 
         //x-Achse und y-Achse werden gezeichnet
         this.context.beginPath();
         this.context.moveTo(0, centreY);
-        this.context.lineTo(this.canvas.width, centreY);
+        this.context.lineTo(this.width, centreY);
         this.context.moveTo(centreX + SHARPEN_OFFSET, 0);
-        this.context.lineTo(centreX + SHARPEN_OFFSET, this.canvas.height);
+        this.context.lineTo(centreX + SHARPEN_OFFSET, this.height);
         this.context.stroke();
 
         //Koordinatenbeschriftung wird formatiert
@@ -84,13 +96,13 @@ class View {
         this.context.strokeStyle = ARROW_COLOR;
         this.context.lineWidth = ARROW_LINE_WIDTH;
         this.context.beginPath();
-        this.context.moveTo(this.canvas.width/2, this.canvas.height/2);
-        this.context.lineTo(this.canvas.width/2 + x*this.canvasScaling/this.userScaling, this.canvas.height/2 - y*this.canvasScaling/this.userScaling);
+        this.context.moveTo(this.width/2, this.height/2);
+        this.context.lineTo(this.width/2 + x*this.canvasScaling/this.userScaling, this.height/2 - y*this.canvasScaling/this.userScaling);
         this.context.stroke();
     }
 
     reset() {
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.context.clearRect(0, 0, this.width, this.height);
         this.drawCoordinateSystem();
     }
 
