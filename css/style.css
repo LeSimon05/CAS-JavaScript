@@ -12,7 +12,7 @@ main > #UserInterface {
     width: max-content;
 }
 
-main > div{
+#UserInterface, #CanvasContainer {
     border-width: 3px;
     border-style: double;
     border-color: black;
