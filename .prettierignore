@@ -1,0 +1,9 @@
+# Vendor-Bibliothek und generierte Dateien
+js/lib/
+tests/fixtures/
+package-lock.json
+
+# ACHTUNG: nicht formatieren! Controller.js verdrahtet Buttons ueber td.firstChild;
+# Zeilenumbrueche innerhalb der <td>-Elemente wuerden Whitespace-Textknoten erzeugen
+# und die Buttons lahmlegen.
+index.html

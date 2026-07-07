@@ -1,0 +1,9 @@
+{
+    "tabWidth": 4,
+    "overrides": [
+        {
+            "files": "tests/**/*.js",
+            "options": { "tabWidth": 2 }
+        }
+    ]
+}
