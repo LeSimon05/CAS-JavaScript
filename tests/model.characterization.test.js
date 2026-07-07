@@ -76,9 +76,12 @@ test("addNumber / getListofAnswers / resetListofAnswers", () => {
   const model = new Model();
   model.addNumber(complex("3+4i"));
   model.addNumber(complex("1-2i"));
-  // JSON-Vergleich, weil die Arrays im VM-Kontext einen anderen Array-Prototyp
+  // JSON-Vergleich, weil die Objekte im VM-Kontext einen anderen Prototyp
   // haben und deepStrictEqual sonst realm-übergreifend fehlschlägt.
-  assert.equal(JSON.stringify(model.getListofAnswers()), JSON.stringify([[3, 4], [1, -2]]));
+  assert.equal(
+    JSON.stringify(model.getListofAnswers()),
+    JSON.stringify([{ re: 3, im: 4 }, { re: 1, im: -2 }]),
+  );
   model.resetListofAnswers();
   assert.equal(JSON.stringify(model.getListofAnswers()), "[]");
 });

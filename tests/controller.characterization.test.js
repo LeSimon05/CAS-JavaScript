@@ -79,6 +79,20 @@ test("Komma in Real- und Imaginärteil: 1,5+2,5i Betrag → '2.92'", () => {
   assert.equal(app.byId.resultCell.innerHTML, "2.92");
 });
 
+test("Maßstab-Klick zeichnet gespeicherte Zeiger neu (mit halbierter Skalierung)", () => {
+  const app = createApp();
+  app.clickOperator("operatorButtonCellZ1", "absoluteValue", "3+4i");
+  const baseline = app.canvasCalls.length;
+  app.byId.increaseScaleButton.onclick(); // userScaling 1 -> 2
+  assert.equal(app.byId.scaleLabel.innerHTML, "2");
+  // Der Zeiger zu (3,4) wird mit canvasScaling/userScaling = 25 px/Einheit neu
+  // gezeichnet: von (400,300) nach (400+3*25, 300-4*25) = (475,200).
+  const arrowLineTo = app.canvasCalls
+    .slice(baseline)
+    .find((c) => c[0] === "lineTo" && c[1] === 475 && c[2] === 200);
+  assert.ok(arrowLineTo, "erwarteter lineTo(475,200) des neu skalierten Zeigers fehlt");
+});
+
 test("zurücksetzen leert Felder und versteckt das Ergebnis", () => {
   const app = createApp();
   app.clickOperator("operator2ButtonCell", "add", "1+2i", "3+4i");

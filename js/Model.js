@@ -88,7 +88,7 @@ class Model {
     }
 
     addNumber(z) {
-        this.listOfAnswers.push([z.re, z.im]);
+        this.listOfAnswers.push({ re: z.re, im: z.im });
     }
 
     getListofAnswers() {

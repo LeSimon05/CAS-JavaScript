@@ -104,13 +104,13 @@ document.getElementById("resetButton").onclick = function() {
 document.getElementById("decreaseScaleButton").onclick = function() {
     scaleLabel.innerHTML = view.toggleScale("decrease");
     for (let num of model.getListofAnswers()) {
-        view.drawArrow(num[0], num[1]);
+        view.drawArrow(num.re, num.im);
     }
 };
 
 document.getElementById("increaseScaleButton").onclick = function() {
     scaleLabel.innerHTML = view.toggleScale("increase");
     for (let num of model.getListofAnswers()) {
-        view.drawArrow(num[0], num[1]);
+        view.drawArrow(num.re, num.im);
     }
 };
