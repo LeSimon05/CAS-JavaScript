@@ -14,7 +14,7 @@ function parseComplexInput(raw) {
 
 //Zeigt den Hinweis auf eine ungueltige Eingabe an und protokolliert den Fehler
 function showInvalidInput(error) {
-    console.log(error);
+    console.error(error);
     resultCell.innerHTML = "ungültige Eingabe";
 }
 
